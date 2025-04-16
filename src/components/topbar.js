@@ -94,7 +94,7 @@ export default function Topbar() {
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
               >
-                {/* Tombol utama dengan z-index lebih tinggi */}
+                {/* Menu utama */}
                 <div className="relative z-20">
                   <Link
                     href={item.href}
@@ -104,20 +104,23 @@ export default function Topbar() {
                   </Link>
                 </div>
 
-                {/* Dropdown Menu dengan z-index lebih rendah */}
+                {/* Dropdown Menu */}
                 {item.dropdownItems && (
                   <AnimatePresence>
                     {activeDropdown === index && (
                       <motion.div
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -5 }}
-                        transition={{ duration: 0.2 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ 
+                          opacity: { duration: 0.3, ease: "easeInOut" }
+                        }}
                         className="absolute left-0 w-full bg-white rounded-xl shadow-lg z-10"
                         style={{
-                          marginTop: "-10px", // Sedikit overlap dengan tombol utama
-                          paddingTop: "10px", // Ruang di bagian atas untuk overlap
-                          width: "100%",
+                          marginTop: "-15px", // Sedikit overlap dengan tombol utama
+                          paddingTop: "15px", // Ruang di bagian atas untuk overlap
+                          width: "120%",
+                          left: "-10%",
                         }}
                       >
                         <div className="py-2">

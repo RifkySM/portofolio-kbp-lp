@@ -5,8 +5,11 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "KBPayuk",
+  title: "KBPayuk | Kota Baru Parahyangan",
   description: "KBPayuk Website",
+  icons: {
+    icon: '/logo-kbpayuk.png',
+  }
 }
 
 export default function RootLayout({ children }) {

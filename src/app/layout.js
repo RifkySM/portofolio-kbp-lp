@@ -3,12 +3,14 @@ import Footer from "@/components/footer"
 import { Inter } from "next/font/google"
 import "./globals.css"
 
-// Opsional: Gunakan font system atau custom font
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Nama Website Anda",
-  description: "Deskripsi website Anda",
+  title: "KBPayuk | Kota Baru Parahyangan",
+  description: "KBPayuk Website",
+  icons: {
+    icon: '/logo-kbpayuk.png',
+  }
 }
 
 export default function RootLayout({ children }) {

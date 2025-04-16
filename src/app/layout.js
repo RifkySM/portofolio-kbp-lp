@@ -23,6 +23,7 @@ export default function RootLayout({ children }) {
       <body className={`font-poppins ${poppins.className}`}>
         <Topbar />
         {children}
+        <Footer />
       </body>
     </html>
   )

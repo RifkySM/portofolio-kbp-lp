@@ -1,4 +1,5 @@
 import Topbar from "@/components/topbar"
+import Footer from "@/components/footer"
 import "./globals.css"
 import { Poppins } from 'next/font/google'
 

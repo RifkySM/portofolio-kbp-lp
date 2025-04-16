@@ -1,4 +1,4 @@
-export default function Home() {
+export default function KBPayukEvent() {
   return (
     <main className="min-h-screen bg-white">
       {/* Konten halaman utama */}

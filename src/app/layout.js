@@ -1,9 +1,14 @@
 import Topbar from "@/components/topbar"
 import Footer from "@/components/footer"
-import { Inter } from "next/font/google"
 import "./globals.css"
+import { Poppins } from 'next/font/google'
 
-const inter = Inter({ subsets: ["latin"] })
+const poppins = Poppins({ 
+  weight: ['300', '400', '500', '600', '700'], // Berbagai ketebalan font yang dibutuhkan
+  subsets: ['latin'],                          // Subset karakter
+  display: 'swap',                             // Strategi loading font
+  variable: '--font-poppins',                  // Nama variabel CSS
+})
 
 export const metadata = {
   title: "KBPayuk | Kota Baru Parahyangan",
@@ -15,8 +20,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="id">
-      <body className={inter.className}>
+    <html lang="id" className={poppins.variable}>
+      <body className={`font-poppins ${poppins.className}`}>
         <Topbar />
         {children}
         <Footer />

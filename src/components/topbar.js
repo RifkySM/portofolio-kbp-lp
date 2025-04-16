@@ -52,7 +52,12 @@ export default function Topbar() {
 
   return (
     <div className="relative">
-      <div className="bg-[#0a4c81] text-white py-7">
+      <div 
+        className="bg-[#0a4c81] text-white py-7 relative"
+        style={{
+          boxShadow: "0px 1px 8px rgba(0, 0, 0, 0.5)"
+        }}
+      >
         <div className="max-w-7xl mx-48 px-4 flex justify-between items-center">
           <div className="flex-shrink-0 ml-[10%]">
             <Link href="/">
@@ -128,7 +133,7 @@ export default function Topbar() {
                             <Link
                               key={idx}
                               href={dropdownItem.href}
-                              className="block px-6 py-3 text-gray-800 hover:font-bold transition-all duration-300 text-center"
+                              className="block px-6 py-3 text-md text-gray-800 hover:font-bold transition-all duration-300 text-center"
                             >
                               {dropdownItem.title}
                             </Link>

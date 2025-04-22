@@ -27,7 +27,7 @@ const menuItems = [
   {
     title: "Enjoy Your Stay",
     href: "#",
-    dropdownItems: [{ title: "Mason Pine Hotel", href: "/hotel" }],
+    dropdownItems: [{ title: "Mason Pine Hotel", href: "/masonpinehotel" }],
   },
   {
     title: "Get Explore",

@@ -143,7 +143,7 @@ export default function NewsPage() {
         <div className="text-center pt-10">
             <div className="overflow-hidden">
                 <motion.h1
-                    className="text-6xl font-semibold"
+                    className="text-5xl font-semibold"
                     initial={{ y: 100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{
@@ -158,8 +158,8 @@ export default function NewsPage() {
         </div>
 
         {/* News Grid */}
-        <div className="max-w-[1045px] mx-auto py-9">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9">
+        <div className="max-w-[920px] mx-auto py-9">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {newsData.map((news) => (
               <NewsCard key={news.id} news={news} />
             ))}
@@ -176,16 +176,16 @@ function NewsCard({ news }) {
 
   return (
     <div
-      className="relative h-[335px] overflow-hidden"
+      className="relative h-[292px] overflow-hidden"
       style={{
         backgroundImage: `url(${news.image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="absolute inset-0 pt-11 pb-8 px-7 flex flex-col justify-between" style={{ backgroundColor: "rgba(0, 0, 0, 0.41)" }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <div className="absolute inset-0 py-8 px-6 flex flex-col justify-between" style={{ backgroundColor: "rgba(0, 0, 0, 0.41)" }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         {/* Date and Read Time */}
-        <div className="text-white text-[11px]">
+        <div className="text-white-100 text-[11px]">
           <span>{news.date}</span>
           <span className="mx-2">•</span>
           <span>{news.readTime}</span>
@@ -198,7 +198,7 @@ function NewsCard({ news }) {
             className="block"
           >
             <h2
-              className={`text-md font-bold transition-colors ${
+              className={`text-sm font-bold transition-colors ${
                 isHovered ? "text-[#e86c32]" : "text-white"
               }`}
             >

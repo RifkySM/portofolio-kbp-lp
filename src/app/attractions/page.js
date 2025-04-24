@@ -37,14 +37,14 @@ export default function AttractionsPage() {
     <main className="min-h-screen bg-white pb-[100vh]">
       <div className="container mx-auto px-4 py-3">
         {/* Food Logo and Title */}
-        <div className="flex flex-col items-center justify-center mb-16">
+        <div className="flex flex-col items-center justify-center mb-6">
           {/* Logo */}
           <svg
             preserveAspectRatio="xMidYMid meet"
             data-bbox="30 39.999 140 120.001"
             viewBox="30 39.999 140 120.001"
-            height="100"
-            width="100"
+            height="90"
+            width="90"
             xmlns="http://www.w3.org/2000/svg"
             className="mb-4"
             >
@@ -76,8 +76,8 @@ export default function AttractionsPage() {
             </svg>
 
           {/* Title and Tagline */}
-          <h1 className="text-5xl font-bold text-gray-800 mb-1">ATTRACTIONS</h1>
-          <p className="text-2xl text-gray-800">Get fun at KBPayuk!</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-1">ATTRACTIONS</h1>
+          <p className="text-xl text-gray-800">Get fun at KBPayuk!</p>
         </div>
 
         {/* Food Categories */}
@@ -87,7 +87,7 @@ export default function AttractionsPage() {
               key={category.id}
               className="relative flex items-center justify-center"
               style={{
-                width: "280px",
+                width: "252px",
                 height: "400px",
               }}
             >
@@ -114,8 +114,8 @@ export default function AttractionsPage() {
                     borderBottomRightRadius: "0",
                   }}
                   animate={{
-                    width: hoveredIndex === index ? "241px" : "271px",
-                    height: hoveredIndex === index ? "340px" : "380px",
+                    width: hoveredIndex === index ? "216px" : "246px",
+                    height: hoveredIndex === index ? "305px" : "345px",
                   }}
                   transition={{
                     duration: 0.4,
@@ -145,7 +145,7 @@ export default function AttractionsPage() {
                           transition={{
                             duration: 0.2,
                           }}
-                          className="text-white text-3xl font-semibold"
+                          className="text-white text-2xl font-semibold"
                         >
                           {category.title}
                         </motion.h2>
@@ -156,7 +156,7 @@ export default function AttractionsPage() {
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0 }}
-                          className="text-white text-4xl font-semibold"
+                          className="text-white text-3xl font-semibold"
                         >
                           {category.title}
                         </motion.h2>

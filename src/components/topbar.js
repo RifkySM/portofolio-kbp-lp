@@ -90,7 +90,7 @@ export default function Topbar() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/">
-              <Image src="/kbpayuk-event/logo.png" alt="kbpayuk Logo" width={89} height={45} className="h-12 w-auto" />
+              <Image src="/topbar/logo.png" alt="kbpayuk Logo" width={89} height={45} className="h-12 w-auto" />
             </Link>
           </div>
 

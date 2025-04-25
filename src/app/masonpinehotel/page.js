@@ -19,64 +19,64 @@ export default function MasonPineHotelPage() {
       <div className="container mx-auto px-4 pb-14">
         {/* Mason Pine Logo */}
         <div className="flex flex-col items-center justify-center">
-          <Image src="/masonpinehotel/logo-mason.png" alt="Mason Pine Hotel Logo" width={750} height={550} />
+          <Image src="/masonpinehotel/logo-mason.png" alt="Mason Pine Hotel Logo" width={674} height={403} />
         </div>
 
         {/* Gallery */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-12 max-w-[1415px] mx-auto">
-        {/* Left Image */}
-        <div className="lg:col-span-6">
-            <div className="rounded-3xl overflow-hidden h-[550px] relative">
-            <Image
-                src="/masonpinehotel/mason-1.png"
-                alt="Mason Pine Hotel Night View"
-                fill
-                className="object-cover"
-            />
-            </div>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-12 max-w-[1270px] mx-auto">
+          {/* Left Image */}
+          <div className="lg:col-span-6">
+              <div className="rounded-3xl overflow-hidden h-[500px] relative">
+              <Image
+                  src="/masonpinehotel/mason-1.png"
+                  alt="Mason Pine Hotel Night View"
+                  fill
+                  className="object-cover"
+              />
+              </div>
+          </div>
 
-        {/* Right Images */}
-        <div className="lg:col-span-6 grid grid-rows-5 gap-3">
-            {/* Top Image */}
-            <div className="row-span-2 rounded-3xl overflow-hidden relative">
-                <Image src="/masonpinehotel/mason-2.png" alt="Family at Playground" fill className="object-cover" />
-            </div>
+          {/* Right Images */}
+          <div className="lg:col-span-6 grid grid-rows-5 gap-3">
+              {/* Top Image */}
+              <div className="row-span-2 rounded-3xl overflow-hidden relative">
+                  <Image src="/masonpinehotel/mason-2.png" alt="Family at Playground" fill className="object-cover" />
+              </div>
 
-            {/* Bottom Image */}
-            <div className="row-span-3 grid grid-cols-5 gap-3">
-                {/* Left Image - Pool Area */}
-                <div className="col-span-2 rounded-3xl overflow-hidden relative">
-                    <Image src="/masonpinehotel/mason-3.png" alt="Pool Area" fill className="object-cover" />
-                </div>
-                
-                {/* Right Images - 3 Stacked Images */}
-                <div className="col-span-3 grid grid-rows-5 gap-3">
-                    {/* Top Image */}
-                    <div className="row-span-2 rounded-3xl overflow-hidden relative">
-                    <Image src="/masonpinehotel/mason-4.png" alt="Shopping" fill className="object-cover" />
-                    </div>
-                    
-                    {/* Bottom 2 Images */}
-                    <div className="row-span-3 grid grid-cols-2 gap-3">
-                        <div className="rounded-3xl overflow-hidden relative">
-                            <Image src="/masonpinehotel/mason-5.png" alt="Dining" fill className="object-cover" />
-                        </div>
-                        <div className="rounded-3xl overflow-hidden relative">
-                            <Image src="/masonpinehotel/mason-6.png" alt="Restaurant" fill className="object-cover" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+              {/* Bottom Image */}
+              <div className="row-span-3 grid grid-cols-2 gap-3">
+                  {/* Left Image - Pool Area */}
+                  <div className="col-span-1 rounded-3xl overflow-hidden relative">
+                      <Image src="/masonpinehotel/mason-3.png" alt="Pool Area" fill className="object-cover" />
+                  </div>
+                  
+                  {/* Right Images - 3 Stacked Images */}
+                  <div className="col-span-1 grid grid-rows-5 gap-3">
+                      {/* Top Image */}
+                      <div className="row-span-2 rounded-3xl overflow-hidden relative">
+                      <Image src="/masonpinehotel/mason-4.png" alt="Shopping" fill className="object-cover" />
+                      </div>
+                      
+                      {/* Bottom 2 Images */}
+                      <div className="row-span-3 grid grid-cols-2 gap-3">
+                          <div className="rounded-3xl overflow-hidden relative">
+                              <Image src="/masonpinehotel/mason-5.png" alt="Dining" fill className="object-cover" />
+                          </div>
+                          <div className="rounded-3xl overflow-hidden relative">
+                              <Image src="/masonpinehotel/mason-6.png" alt="Restaurant" fill className="object-cover" />
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
         </div>
 
         {/* Hotel Information */}
-        <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-6xl font-bold text-[#b08d57] mb-8">Mason Pine Hotel</h2>
+        <div className="max-w-lg mx-auto text-center">
+          <h2 className="text-5xl font-semibold tracking-wide text-[#b08d57] mb-8">Mason Pine Hotel</h2>
 
           {/* Teks deskripsi */}
-          <p className="text-gray-700 mb-8 text-lg leading-relaxed text-justify">
+          <p className="text-gray-700 mb-8 text-md leading-relaxed text-justify">
             Mason Pine Hotel, terletak di kawasan Kota Baru Parahyangan, Bandung, adalah hotel mewah{" "}
             <span className="text-[#b08d57] font-bold">bintang lima</span> yang menawarkan perpaduan sempurna antara
             kenyamanan modern dan keindahan alam. Dikelilingi oleh pemandangan pegunungan yang menakjubkan, hotel ini
@@ -121,7 +121,7 @@ export default function MasonPineHotelPage() {
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
               </svg>
-              <span className="text-xl font-bold underline">Mason Pine Hotel Maps</span>
+              <span className="text-md font-bold underline">Mason Pine Hotel Maps</span>
             </Link>
           </div>
 
@@ -131,7 +131,7 @@ export default function MasonPineHotelPage() {
             href="https://www.masonpinehotel.com/en"
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-block py-3 px-12 rounded-full text-xl font-medium transition-all duration-300 ${
+            className={`inline-block px-7 py-1 rounded-full text-xl font-medium transition-all duration-300 ${
                 isBookHovered
                 ? "bg-[#1a2e01] text-white"
                 : "bg-[#f4f4f4] text-[#1a2e01]"

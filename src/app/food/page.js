@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
+import { useMediaQuery } from "@/hooks/mobile"
 
 // Data food categories
 const foodCategories = [
@@ -36,6 +37,7 @@ const foodCategories = [
 export default function FoodPage() {
   const [mounted, setMounted] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState(null)
+  const isMobile = useMediaQuery("(max-width: 428px)")
 
   useEffect(() => {
     setMounted(true)
@@ -47,12 +49,12 @@ export default function FoodPage() {
     <main className="min-h-screen bg-white pb-[100vh]">
       <div className="container mx-auto px-4 py-3">
         {/* Food Logo and Title */}
-        <div className="flex flex-col items-center justify-center mb-16">
+        <div className="flex flex-col items-center justify-center mb-8 sm:mb-12">
           {/* Logo */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="125"
-            height="125"
+            width={isMobile ? "80" : "110"}
+            height={isMobile ? "85" : "115"}
             viewBox="0 0 200 200"
             fill="none"
             stroke="currentColor"
@@ -66,8 +68,8 @@ export default function FoodPage() {
           </svg>
 
           {/* Title and Tagline */}
-          <h1 className="text-5xl font-bold text-gray-800 mb-1">FOOD</h1>
-          <p className="text-2xl text-gray-800">Get yummy at KBPayuk!</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-1">FOOD</h1>
+          <p className="text-lg sm:text-xl text-gray-800 sm:block hidden">Get yummy at KBPayuk!</p>
         </div>
 
         {/* Food Categories */}
@@ -77,8 +79,8 @@ export default function FoodPage() {
               key={category.id}
               className="relative flex items-center justify-center"
               style={{
-                width: "280px",
-                height: "400px",
+                width: isMobile ? "180px" : "252px",
+                height: isMobile ? "300px" : "400px",
               }}
             >
               <motion.div
@@ -104,8 +106,8 @@ export default function FoodPage() {
                     borderBottomRightRadius: "0",
                   }}
                   animate={{
-                    width: hoveredIndex === index ? "241px" : "271px",
-                    height: hoveredIndex === index ? "340px" : "380px",
+                    width: hoveredIndex === index ? (isMobile ? "196px" : "216px") : isMobile ? "226px" : "246px",
+                    height: hoveredIndex === index ? (isMobile ? "235px" : "305px") : isMobile ? "275px" : "345px",
                   }}
                   transition={{
                     duration: 0.4,
@@ -120,9 +122,6 @@ export default function FoodPage() {
                     className="object-cover"
                   />
 
-                  {/* Overlay - constant opacity */}
-                  {/* <div className="absolute inset-0" /> */}
-
                   {/* Text */}
                   <div className="absolute bottom-4 left-0 right-0 text-center">
                     <AnimatePresence mode="wait">
@@ -135,7 +134,7 @@ export default function FoodPage() {
                           transition={{
                             duration: 0.2,
                           }}
-                          className="text-white text-3xl font-semibold"
+                          className="text-white text-xl sm:text-2xl font-semibold"
                         >
                           {category.title}
                         </motion.h2>
@@ -146,7 +145,7 @@ export default function FoodPage() {
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0 }}
-                          className="text-white text-4xl font-semibold"
+                          className="text-white text-2xl sm:text-3xl font-semibold"
                         >
                           {category.title}
                         </motion.h2>
@@ -157,6 +156,11 @@ export default function FoodPage() {
               </motion.div>
             </div>
           ))}
+        </div>
+
+        {/* Mobile tagline - appears below food categories */}
+        <div className="sm:hidden text-center mt-6">
+          <p className="text-lg text-gray-800">Get yummy at KBPayuk!</p>
         </div>
       </div>
     </main>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
+import { useMediaQuery } from "@/hooks/mobile"
 
 // Data atrraction
 const attractionsCategories = [
@@ -26,6 +27,7 @@ const attractionsCategories = [
 export default function AttractionsPage() {
   const [mounted, setMounted] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState(null)
+  const isMobile = useMediaQuery("(max-width: 428px)")
 
   useEffect(() => {
     setMounted(true)
@@ -37,14 +39,14 @@ export default function AttractionsPage() {
     <main className="min-h-screen bg-white pb-[100vh]">
       <div className="container mx-auto px-4 py-3">
         {/* Food Logo and Title */}
-        <div className="flex flex-col items-center justify-center mb-16">
+        <div className="flex flex-col items-center justify-center mb-6 sm:mb-8">
           {/* Logo */}
           <svg
             preserveAspectRatio="xMidYMid meet"
             data-bbox="30 39.999 140 120.001"
             viewBox="30 39.999 140 120.001"
-            height="100"
-            width="100"
+            width={isMobile ? "70" : "90"}
+            height={isMobile ? "70" : "90"}
             xmlns="http://www.w3.org/2000/svg"
             className="mb-4"
             >
@@ -76,8 +78,8 @@ export default function AttractionsPage() {
             </svg>
 
           {/* Title and Tagline */}
-          <h1 className="text-5xl font-bold text-gray-800 mb-1">ATTRACTIONS</h1>
-          <p className="text-2xl text-gray-800">Get fun at KBPayuk!</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-1">ATTRACTIONS</h1>
+          <p className="text-lg sm:text-xl text-gray-800 sm:block hidden">Get fun at KBPayuk!</p>
         </div>
 
         {/* Food Categories */}
@@ -87,8 +89,8 @@ export default function AttractionsPage() {
               key={category.id}
               className="relative flex items-center justify-center"
               style={{
-                width: "280px",
-                height: "400px",
+                width: isMobile ? "180px" : "252px",
+                height: isMobile ? "300px" : "400px",
               }}
             >
               <motion.div
@@ -114,8 +116,8 @@ export default function AttractionsPage() {
                     borderBottomRightRadius: "0",
                   }}
                   animate={{
-                    width: hoveredIndex === index ? "241px" : "271px",
-                    height: hoveredIndex === index ? "340px" : "380px",
+                    width: hoveredIndex === index ? (isMobile ? "196px" : "216px") : isMobile ? "226px" : "246px",
+                    height: hoveredIndex === index ? (isMobile ? "235px" : "305px") : isMobile ? "275px" : "345px",
                   }}
                   transition={{
                     duration: 0.4,
@@ -145,7 +147,7 @@ export default function AttractionsPage() {
                           transition={{
                             duration: 0.2,
                           }}
-                          className="text-white text-3xl font-semibold"
+                          className="text-white text-xl sm:text-2xl font-semibold"
                         >
                           {category.title}
                         </motion.h2>
@@ -156,7 +158,7 @@ export default function AttractionsPage() {
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0 }}
-                          className="text-white text-4xl font-semibold"
+                          className="text-white text-2xl sm:text-3xl font-semibold"
                         >
                           {category.title}
                         </motion.h2>
@@ -167,6 +169,11 @@ export default function AttractionsPage() {
               </motion.div>
             </div>
           ))}
+        </div>
+
+        {/* Mobile tagline - appears below food categories */}
+        <div className="sm:hidden text-center mt-6">
+          <p className="text-lg text-gray-800">Get fun at KBPayuk!</p>
         </div>
       </div>
     </main>

@@ -184,20 +184,20 @@ export default function Topbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 lg:hidden"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "tween", duration: 0.3 }}
-              className="absolute right-0 top-0 h-full w-4/5 max-w-sm bg-[#0a4c81] p-6 overflow-y-auto"
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "tween", duration: 0.5 }}
+              className="flex items-center justify-center h-full w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex flex-col space-y-6 mt-12">
+              <div className="flex flex-col space-y-6 w-4/5 max-w-sm">
                 {menuItems.map((item, index) => (
-                  <div key={index} className="border-b border-[#2b6ca3] pb-4">
+                  <div key={index} className="border-b border-gray-500/50 pb-4">
                     <div
                       className="flex justify-between items-center cursor-pointer"
                       onClick={() => toggleMobileDropdown(index)}
@@ -226,12 +226,12 @@ export default function Topbar() {
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
                           >
-                            <div className="pl-4 mt-3 flex flex-col space-y-3">
+                            <div className="mt-3 flex flex-col space-y-3">
                               {item.dropdownItems.map((dropdownItem, idx) => (
                                 <Link
                                   key={idx}
                                   href={dropdownItem.href}
-                                  className="text-white hover:text-[#5a9dd0] transition-colors duration-300"
+                                  className="text-white text-center hover:text-[#5a9dd0] transition-colors duration-300"
                                 >
                                   {dropdownItem.title}
                                 </Link>

@@ -145,7 +145,7 @@ export default function NewsPage() {
         <div className="text-center pt-10">
             <div className="overflow-hidden">
                 <motion.h1
-                    className="text-3xl sm:text-5xl font-semibold sm:block hidden"
+                    className="text-3xl sm:text-5xl font-semibold block"
                     initial={{ y: 100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{
@@ -160,7 +160,7 @@ export default function NewsPage() {
         </div>
 
         {/* News Grid */}
-        <div className="sm:py-9 max-w-[920px] mx-auto pb-6">
+        <div className="py-9 max-w-[920px] mx-auto pb-6">
           <div className="grid grid-cols-1 px-4 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {newsData.map((news) => (
               <NewsCard key={news.id} news={news} />
@@ -169,9 +169,9 @@ export default function NewsPage() {
         </div>
 
         {/* Mobile tagline - appears below news */}
-        <div className="sm:hidden text-center text-3xl font-semibold pb-10">
+        {/* <div className="sm:hidden text-center text-3xl font-semibold pb-10">
           <span className="text-[#000000]">What's On </span> <span className="text-[#e86c32]">KBPa</span>
-        </div>
+        </div> */}
       </div>
     </main>
   )

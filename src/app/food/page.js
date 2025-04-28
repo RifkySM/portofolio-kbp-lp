@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { useMediaQuery } from "@/hooks/mobile"
 
@@ -11,42 +12,151 @@ const foodCategories = [
     id: 1,
     title: "Fine Dine",
     image: "/food/food-1.png",
+    items: [
+      {
+        id: 1,
+        image: "/food/fineDine/fineDine-1.png",
+        description: "Samara Indonesian Dining",
+        bgColor: "#2e2e2e",
+        schedule: "11.30 - 14.00, 18.00 - 22.00",
+        link: "#",
+      },
+      {
+        id: 2,
+        image: "/food/fineDine/fineDine-2.png",
+        description: "Casa by Lé Savoye",
+        bgColor: "#2e2e2e",
+        schedule: "07.00 - 21.00",
+        link: "#",
+      },
+    ],
   },
   {
     id: 2,
     title: "Breakfast",
     image: "/food/food-2.png",
+    items: [
+      {
+        id: 1,
+        image: "/food/breakfast/breakfast-1.png",
+        description: "Santai - Mason Pine Hotel",
+        bgColor: "#2e2e2e",
+        schedule: "08.30 - 16.30",
+        link: "#",
+      },
+      {
+        id: 2,
+        image: "/food/breakfast/breakfast-2.png",
+        description: "McDonald's",
+        bgColor: "#2e2e2e",
+        schedule: "Open 24hr",
+        link: "#",
+      },
+    ],
   },
   {
     id: 3,
     title: "Coffee & Bar",
     image: "/food/food-3.png",
+    items: [
+      {
+        id: 1,
+        image: "/food/coffee/coffee-1.png",
+        description: "Noah's Barn Coffeenery",
+        bgColor: "#5d2101",
+        schedule: "07.00 - 21.00",
+        link: "#",
+      },
+      {
+        id: 2,
+        image: "/food/coffee/coffee-2.png",
+        description: "Two Cents Coffee",
+        bgColor: "#5d2101",
+        schedule: "Open 24hr",
+        link: "#",
+      },
+    ],
   },
   {
     id: 4,
     title: "Nusantara",
     image: "/food/food-4.png",
+    items: [
+      {
+        id: 1,
+        image: "/food/nusantara/nusantara-1.png",
+        description: "La Pantry",
+        bgColor: "#375512",
+        schedule: "08.00 - 21.30",
+        link: "#",
+      },
+      {
+        id: 2,
+        image: "/food/nusantara/nusantara-2.png",
+        description: "Kota Baru Foodmarket",
+        bgColor: "#375512",
+        schedule: "08.00 - 22.00",
+        link: "#",
+      },
+    ],
   },
   {
     id: 5,
     title: "Western",
     image: "/food/food-5.png",
+    items: [
+      {
+        id: 1,
+        image: "/food/western/western-1.png",
+        description: "Karnivor",
+        bgColor: "#324158",
+        schedule: "08.00 - 22.00",
+        link: "#",
+      },
+      {
+        id: 2,
+        image: "/food/western/western-2.png",
+        description: "Ambrogio Patisserie",
+        bgColor: "#324158",
+        schedule: "08.00 - 21.00",
+        link: "#",
+      },
+    ],
   },
 ]
 
 export default function FoodPage() {
   const [mounted, setMounted] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState(null)
+  const [selectedAttraction, setSelectedAttraction] = useState(null)
+  const [hoveredCard, setHoveredCard] = useState(null)
   const isMobile = useMediaQuery("(max-width: 428px)")
+  const itemsSectionRef = useRef(null)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
+  useEffect(() => {
+    // Scroll to items section when an attraction is selected
+    if (selectedAttraction !== null && itemsSectionRef.current) {
+      itemsSectionRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [selectedAttraction])
+
   if (!mounted) return null
 
+  const handleAttractionClick = (index) => {
+    setSelectedAttraction(index === selectedAttraction ? null : index)
+  }
+
+  // Function to chunk array into pairs (2 items per row)
+  const chunkArray = (arr, size) => {
+    return Array.from({ length: Math.ceil(arr.length / size) }, (v, i) => arr.slice(i * size, i * size + size))
+  }
+
   return (
-    <main className="min-h-screen bg-white pb-[100vh]">
+    <main className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-3">
         {/* Food Logo and Title */}
         <div className="flex flex-col items-center justify-center mb-8 sm:mb-12">
@@ -90,6 +200,7 @@ export default function FoodPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
+                onClick={() => handleAttractionClick(index)}
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -134,7 +245,7 @@ export default function FoodPage() {
                           transition={{
                             duration: 0.2,
                           }}
-                          className="text-white text-xl sm:text-2xl font-semibold"
+                          className="text-white text-xl sm:text-2xl font-semibold text-shadow-md"
                         >
                           {category.title}
                         </motion.h2>
@@ -145,7 +256,7 @@ export default function FoodPage() {
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0 }}
-                          className="text-white text-2xl sm:text-3xl font-semibold"
+                          className="text-white text-2xl sm:text-3xl font-semibold text-shadow-md"
                         >
                           {category.title}
                         </motion.h2>
@@ -161,6 +272,107 @@ export default function FoodPage() {
         {/* Mobile tagline - appears below food categories */}
         <div className="sm:hidden text-center mt-6">
           <p className="text-lg text-gray-800">Get yummy at KBPayuk!</p>
+        </div>
+
+        {/* Food Items Section */}
+        <div ref={itemsSectionRef} className="pt-16 mb-20">
+          <AnimatePresence>
+            {selectedAttraction !== null && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }} className="w-full">
+                {/* Group items into rows of 2 */}
+                {chunkArray(foodCategories[selectedAttraction].items, 2).map((row, rowIndex) => (
+                  <div key={`row-${rowIndex}`} className="flex flex-wrap justify-center gap-8 mb-8">
+                    {row.map((item, index) => {
+                      const itemIndex = rowIndex * 2 + index
+                      const isEven = itemIndex % 2 === 0
+
+                      return (
+                        <motion.div
+                          key={item.id}
+                          className="relative overflow-hidden rounded-3xl shadow-lg"
+                          style={{ width: isMobile ? "300px" : "450px", height: isMobile ? "240px" : "340px" }}
+                          initial={{
+                            opacity: 0,
+                            rotate: isEven ? 20 : -20,
+                            scale: 0.9,
+                          }}
+                          animate={{
+                            opacity: 1,
+                            rotate: 0,
+                            scale: 1,
+                          }}
+                          transition={{
+                            duration: 0.8,
+                            delay: 0.1 + (itemIndex * 0.3),
+                            type: "spring",
+                            stiffness: 70,
+                            damping: 15,
+                          }}
+                          onMouseEnter={() => setHoveredCard(itemIndex)}
+                          onMouseLeave={() => setHoveredCard(null)}
+                        >
+                          {/* Top part with image */}
+                          <div className="relative h-3/5 w-full">
+                            <Image
+                              src={item.image || "/placeholder.svg"}
+                              alt={foodCategories[selectedAttraction].title}
+                              fill
+                              className="object-cover"
+                            />
+                            <div className="absolute top-6 left-4">
+                              <AnimatePresence mode="wait">
+                                {hoveredCard === itemIndex ? (
+                                  <motion.p
+                                    key={`schedule-${item.id}`}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="text-white text-md sm:text-xl font-semibold text-shadow-md"
+                                  >
+                                    {item.schedule}
+                                  </motion.p>
+                                ) : (
+                                  <motion.p
+                                    key={`title-${item.id}`}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="text-white text-md sm:text-xl font-semibold text-shadow-md"
+                                  >
+                                    {foodCategories[selectedAttraction].title}
+                                  </motion.p>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          </div>
+
+                          {/* Bottom part with logo and description */}
+                          <div className="h-2/5 w-full flex" style={{ backgroundColor: item.bgColor }}>
+                            <div className="w-full flex flex-col justify-center p-4 h-full">
+                              <p className="text-white text-center font-semibold text-sm sm:text-xl mb-2">
+                                {item.description}
+                              </p>
+
+                              <div className="flex justify-center">
+                                <Link href={item.link || "#"}>
+                                  <button className="bg-white px-6 py-1.5 rounded-full text-[8px] sm:text-xs 
+                                    text-gray-800 hover:bg-transparent hover:text-white hover:backdrop-brightness-90 transition-all duration-300">
+                                    view more
+                                  </button>
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )
+                    })}
+                  </div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </main>

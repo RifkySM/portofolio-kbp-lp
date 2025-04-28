@@ -1,23 +1,50 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import L from "leaflet"
 
-// Komponen untuk mengubah posisi peta
-function ChangeMapView({ center }) {
+// Komponen baru untuk mengontrol popup
+function PopupController({ activeHalte }) {
   const map = useMap()
-  map.setView(center, 15)
+  const markerRefs = useRef({})
+  
+  useEffect(() => {
+    if (activeHalte) {
+      // Jika marker sudah direferensikan, buka popupnya
+      if (markerRefs.current[activeHalte.id]) {
+        markerRefs.current[activeHalte.id].openPopup()
+      }
+    }
+  }, [activeHalte])
+  
+  return null
+}
+
+function FitBounds({ halteData }) {
+  const map = useMap()
+  
+  useEffect(() => {
+    if (halteData.length > 0) {
+      const bounds = L.latLngBounds(
+        halteData.map(halte => [halte.lat, halte.lng])
+      )
+      map.fitBounds(bounds, { padding: [50, 50] })
+    }
+  }, [halteData, map])
+  
   return null
 }
 
 export default function MapComponent({ halteData, mapCenter, selectedHalte }) {
   const [isMounted, setIsMounted] = useState(false)
-
+  const [activeHalte, setActiveHalte] = useState(null)
+  const markerRefs = useRef({})
+  
   useEffect(() => {
     setIsMounted(true)
-
+    
     // Fix for Leaflet icon issue
     delete L.Icon.Default.prototype._getIconUrl
     L.Icon.Default.mergeOptions({
@@ -26,8 +53,15 @@ export default function MapComponent({ halteData, mapCenter, selectedHalte }) {
       shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
     })
   }, [])
+  
+  // Set activeHalte kalau ada selectedHalte dari props
+  useEffect(() => {
+    if (selectedHalte) {
+      setActiveHalte(selectedHalte)
+    }
+  }, [selectedHalte])
 
-  // Custom bus icon for markers
+  // Custom bus icon untuk marker
   const busIcon = L.divIcon({
     className: "custom-bus-icon",
     html: `<div style="background-color: #7e22ce; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
@@ -38,7 +72,7 @@ export default function MapComponent({ halteData, mapCenter, selectedHalte }) {
     iconSize: [40, 40],
     iconAnchor: [20, 20],
   })
-
+  
   if (!isMounted) {
     return (
       <div className="h-full w-full bg-gray-200 flex items-center justify-center">
@@ -46,15 +80,33 @@ export default function MapComponent({ halteData, mapCenter, selectedHalte }) {
       </div>
     )
   }
-
+  
   return (
     <MapContainer center={mapCenter} zoom={15} style={{ height: "100%", width: "100%" }} className="z-0">
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
+      
+      <FitBounds halteData={halteData} />
+      <PopupController activeHalte={activeHalte} />
+      
       {halteData.map((halte) => (
-        <Marker key={halte.id} position={[halte.lat, halte.lng]} icon={busIcon}>
+        <Marker
+          key={halte.id}
+          position={[halte.lat, halte.lng]}
+          icon={busIcon}
+          ref={(ref) => {
+            if (ref) {
+              markerRefs.current[halte.id] = ref
+            }
+          }}
+          eventHandlers={{
+            click: () => {
+              setActiveHalte(halte)
+            },
+          }}
+        >
           <Popup>
             <div className="p-2">
               <h3 className="font-bold">{halte.name}</h3>
@@ -62,16 +114,9 @@ export default function MapComponent({ halteData, mapCenter, selectedHalte }) {
               <div className="mt-2">
                 <a
                   href={`#${halte.id}`}
-                  target="_blank"
                   className="text-purple-600 underline text-sm font-medium"
-                  // onClick={(e) => {
-                  //   e.preventDefault();
-                  //   document.getElementById(halte.id).scrollIntoView({ 
-                  //     behavior: 'smooth' 
-                  //   });
-                  // }}
                 >
-                  Check schedule here
+                  Lihat Jadwal
                 </a>
               </div>
               <button
@@ -87,7 +132,6 @@ export default function MapComponent({ halteData, mapCenter, selectedHalte }) {
           </Popup>
         </Marker>
       ))}
-      <ChangeMapView center={mapCenter} />
     </MapContainer>
   )
 }

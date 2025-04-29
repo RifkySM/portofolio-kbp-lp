@@ -94,9 +94,45 @@ const attractionsCategories = [
         id: 3,
         image: "/attractions/fun/fun-3.png",
         logo: "/attractions/fun/logo-3.png",
+        description: "Bumi Hejo",
+        bgColor: "#757575",
+        schedule: "10.00 - 21.00",
+        link: "#",
+      },
+      {
+        id: 4,
+        image: "/attractions/fun/fun-4.png",
+        logo: "/attractions/fun/logo-4.png",
         description: "Bumi Playpark",
         bgColor: "#e690bf",
         schedule: "15.00 - 21.00",
+        link: "#",
+      },
+      {
+        id: 5,
+        image: "/attractions/fun/fun-5.png",
+        logo: "/attractions/fun/logo-5.png",
+        description: "Bumi Skatepark",
+        bgColor: "#757575",
+        schedule: "15.00 - 21.00",
+        link: "#",
+      },
+      {
+        id: 6,
+        image: "/attractions/fun/fun-6.png",
+        logo: "/attractions/fun/logo-6.png",
+        description: "Balepare Bikepark",
+        bgColor: "#5d2101",
+        schedule: "09.00 - 17.00",
+        link: "#",
+      },
+      {
+        id: 7,
+        image: "/attractions/fun/fun-7.png",
+        logo: "/attractions/fun/logo-7.png",
+        description: "Bumiluhur",
+        bgColor: "#8cb04a",
+        schedule: "09.00 - 17.00",
         link: "#",
       },
     ],
@@ -279,7 +315,7 @@ export default function AttractionsPage() {
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }} className="w-full">
                 {/* Group items into rows of 2 */}
                 {chunkArray(attractionsCategories[selectedAttraction].items, 2).map((row, rowIndex) => (
-                  <div key={`row-${rowIndex}`} className="flex flex-wrap justify-center gap-8 mb-8">
+                  <div key={`row-${rowIndex}`} className="flex flex-wrap justify-center gap-20 mb-12">
                     {row.map((item, index) => {
                       const itemIndex = rowIndex * 2 + index
                       const isEven = itemIndex % 2 === 0

@@ -52,6 +52,14 @@ const foodCategories = [
         schedule: "Open 24hr",
         link: "#",
       },
+      {
+        id: 3,
+        image: "/food/breakfast/breakfast-3.png",
+        description: "KFC",
+        bgColor: "#2e2e2e",
+        schedule: "07.00 - 22.00",
+        link: "#",
+      },
     ],
   },
   {
@@ -73,6 +81,22 @@ const foodCategories = [
         description: "Two Cents Coffee",
         bgColor: "#5d2101",
         schedule: "Open 24hr",
+        link: "#",
+      },
+      {
+        id: 3,
+        image: "/food/coffee/coffee-3.png",
+        description: "Kopi Nako",
+        bgColor: "#5d2101",
+        schedule: "08.00 - 23.00",
+        link: "#",
+      },
+      {
+        id: 4,
+        image: "/food/coffee/coffee-4.png",
+        description: "Starbucks Coffee",
+        bgColor: "#5d2101",
+        schedule: "07.00 - 22.00",
         link: "#",
       },
     ],
@@ -119,6 +143,14 @@ const foodCategories = [
         description: "Ambrogio Patisserie",
         bgColor: "#324158",
         schedule: "08.00 - 21.00",
+        link: "#",
+      },
+      {
+        id: 3,
+        image: "/food/western/western-3.png",
+        description: "Baby Dutch",
+        bgColor: "#324158",
+        schedule: "09.00 - 22.00",
         link: "#",
       },
     ],
@@ -281,7 +313,7 @@ export default function FoodPage() {
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }} className="w-full">
                 {/* Group items into rows of 2 */}
                 {chunkArray(foodCategories[selectedAttraction].items, 2).map((row, rowIndex) => (
-                  <div key={`row-${rowIndex}`} className="flex flex-wrap justify-center gap-8 mb-8">
+                  <div key={`row-${rowIndex}`} className="flex flex-wrap justify-center gap-20 mb-12">
                     {row.map((item, index) => {
                       const itemIndex = rowIndex * 2 + index
                       const isEven = itemIndex % 2 === 0

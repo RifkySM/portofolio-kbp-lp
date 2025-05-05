@@ -39,7 +39,7 @@ export default function ThisMonthEvent() {
   const isInView = useInView(ref, { once: true, amount: 0.2, margin: "0px 0px -100px 0px" })
 
   return (
-    <section className="py-10 bg-white" ref={ref}>
+    <section id="this-month-event" className="py-10 bg-white" ref={ref}>
       <div className="container mx-auto px-4">
         {/* Header with logo and text */}
         <div className="flex flex-col items-center justify-center mb-8">

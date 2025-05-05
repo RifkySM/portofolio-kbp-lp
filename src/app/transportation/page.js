@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import dynamic from "next/dynamic"
-import ShuttleInfo from "@/components/shuttle-info"
+import ShuttleInfo from "@/components/transportation/shuttle-info"
 
 // Data halte
 const halteData = [
@@ -119,7 +119,7 @@ const halteData = [
 ]
 
 // Impor Map secara dinamis dengan ssr: false untuk menghindari error window is not defined
-const MapWithNoSSR = dynamic(() => import("../../components/map-component"), {
+const MapWithNoSSR = dynamic(() => import("../../components/transportation/map-component"), {
   ssr: false,
   loading: () => (
     <div className="h-[500px] bg-gray-200 flex items-center justify-center">

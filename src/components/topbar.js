@@ -90,7 +90,17 @@ export default function Topbar() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/">
-              <Image src="/topbar/logo.png" alt="kbpayuk Logo" width={89} height={45} className="h-12 w-auto" />
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 250,
+                  damping: 8,
+                }}
+              >
+                <Image src="/topbar/logo.png" alt="kbpayuk Logo" width={89} height={45} className="h-12 w-auto" />
+              </motion.div>
             </Link>
           </div>
 

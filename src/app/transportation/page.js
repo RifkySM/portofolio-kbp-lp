@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import dynamic from "next/dynamic"
 import ShuttleInfo from "@/components/shuttle-info"
-import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet'
 
 // Data halte
 const halteData = [
@@ -133,10 +132,12 @@ export default function TransportationPage() {
   const [selectedHalte, setSelectedHalte] = useState(null)
   const [mapCenter, setMapCenter] = useState([-6.8761, 107.5771]) // Default center
   const halteRefs = useRef({})
+  const [mapKey, setMapKey] = useState(Date.now())
 
   const handleHalteClick = (halte) => {
     setSelectedHalte(halte)
     setMapCenter([halte.lat, halte.lng])
+    setMapKey(Date.now())
   }
 
   useEffect(() => {
@@ -191,7 +192,7 @@ export default function TransportationPage() {
           </div>
 
           {/* Map Component */}
-          <MapWithNoSSR halteData={halteData} mapCenter={mapCenter} selectedHalte={selectedHalte} />
+          <MapWithNoSSR key={mapKey} halteData={halteData} mapCenter={mapCenter} selectedHalte={selectedHalte} />
         </div>
       </div>
 
@@ -199,7 +200,7 @@ export default function TransportationPage() {
       <ShuttleInfo />
 
       {/* Halte Schedule */}
-      <div className="mx-auto max-w-full sm:px-4 md:px-6">
+      <div className="mx-auto max-w-full">
         {halteData.map((halte) => (
             <div key={halte.id} id={halte.id} ref={(el) => (halteRefs.current[halte.id] = el)} className="mb-20">
               {/* Title */}

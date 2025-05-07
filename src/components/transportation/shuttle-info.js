@@ -4,12 +4,11 @@ import Image from "next/image"
 export default function ShuttleInfo() {
   return (
     <div className="mx-auto max-w-7xl px-4 mb-20">
-      {/* Using more consistent responsive margins */}
       <div className="flex flex-col lg:flex-row ml-0 md:ml-0 lg:ml-[100px]">
-        {/* Left Side - No left margin on responsive */}
+        {/* Left Side */}
         <div className="w-full lg:w-2/5 relative flex justify-center lg:block">
           {/* Shuttle Bus Image */}
-          <div className="absolute top-[70px] md:top-[-110px] right-[-300px] left-0 md:right-[-67px] md:left-auto z-20 flex justify-center md:block">
+          <div className="absolute top-[70px] md:top-[-110px] right-[-300px] left-0 md:right-[-50px] md:left-auto z-20 flex justify-center md:block">
             <Image
               src="/transportation/shuttle-bus.png"
               alt="Wahoo Shuttle"
@@ -17,8 +16,7 @@ export default function ShuttleInfo() {
               height={240}
               className="object-contain
                 w-[240px] h-[240px]
-                md:w-[340px] md:h-[340px]
-                lg:w-[400px] lg:h-[400px]"
+                md:w-[340px] md:h-[340px]"
             />
           </div>
           
@@ -27,7 +25,7 @@ export default function ShuttleInfo() {
             className="hidden md:block bg-[#cb6140] h-[339px] w-[384px] relative z-10 px-10 pt-24"
             style={{
               borderRadius: "30px",
-              marginBottom: "-30px", // This makes it overlap the blue section
+              marginBottom: "-50px", // This makes it overlap the blue section
             }}
           >
             <div className="text-right text-white pr-24 pt-4">
@@ -72,7 +70,7 @@ export default function ShuttleInfo() {
           </div>
         </div>
         
-        {/* Right Side - Display below on screens < 1050px */}
+        {/* Right Side */}
         <div className="w-full lg:w-3/5 flex justify-center lg:justify-start mt-10 lg:mt-0">
           <Image
             src="/transportation/shuttle-schedule.png"

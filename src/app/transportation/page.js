@@ -3,8 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import dynamic from "next/dynamic"
-import ShuttleInfo from "@/components/shuttle-info"
-import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet'
+import ShuttleInfo from "@/components/transportation/shuttle-info"
 
 // Data halte
 const halteData = [
@@ -120,7 +119,7 @@ const halteData = [
 ]
 
 // Impor Map secara dinamis dengan ssr: false untuk menghindari error window is not defined
-const MapWithNoSSR = dynamic(() => import("../../components/map-component"), {
+const MapWithNoSSR = dynamic(() => import("../../components/transportation/map-component"), {
   ssr: false,
   loading: () => (
     <div className="h-[500px] bg-gray-200 flex items-center justify-center">
@@ -133,10 +132,12 @@ export default function TransportationPage() {
   const [selectedHalte, setSelectedHalte] = useState(null)
   const [mapCenter, setMapCenter] = useState([-6.8761, 107.5771])
   const halteRefs = useRef({})
+  const [mapKey, setMapKey] = useState(Date.now())
 
   const handleHalteClick = (halte) => {
     setSelectedHalte(halte)
     setMapCenter([halte.lat, halte.lng])
+    setMapKey(Date.now())
   }
 
   useEffect(() => {
@@ -191,7 +192,7 @@ export default function TransportationPage() {
           </div>
 
           {/* Map Component */}
-          <MapWithNoSSR halteData={halteData} mapCenter={mapCenter} selectedHalte={selectedHalte} />
+          <MapWithNoSSR key={mapKey} halteData={halteData} mapCenter={mapCenter} selectedHalte={selectedHalte} />
         </div>
       </div>
 

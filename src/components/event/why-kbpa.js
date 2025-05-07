@@ -219,7 +219,7 @@ export default function WhyKBPa() {
           transition={{ duration: 0.5, delay: 0.1 }}
           viewport={{ once: true }}
         >
-          <Link href="/about">
+          <Link href="#">
             <button className="border-2 border-orange-500 text-black font-bold px-5 py-1.5 rounded-full hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-colors">
               Learn More
             </button>

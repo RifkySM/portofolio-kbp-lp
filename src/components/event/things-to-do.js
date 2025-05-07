@@ -17,19 +17,19 @@ const thingsToDoItems = [
     id: "foodtalk",
     number: "02",
     title: "KBPa Foodtalk",
-    link: "/foodtalk",
+    link: "/food",
   },
   {
     id: "shopping",
     number: "03",
     title: "Find it, Love it, Buy it",
-    link: "/shopping",
+    link: "#",
   },
   {
     id: "wellness",
     number: "04",
     title: "Wellness",
-    link: "/wellness",
+    link: "#",
   },
 ]
 

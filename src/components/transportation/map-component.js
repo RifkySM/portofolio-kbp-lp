@@ -82,7 +82,7 @@ export default function MapComponent({ halteData, mapCenter, selectedHalte }) {
   }
   
   return (
-    <MapContainer center={mapCenter} zoom={15} style={{ height: "100%", width: "100%" }} className="z-0">
+    <MapContainer key={`map-${Date.now()}`} center={mapCenter} zoom={15} style={{ height: "100%", width: "100%" }} className="z-0">
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

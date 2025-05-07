@@ -256,16 +256,15 @@ function EventSlider() {
           style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.25), 0 6px 10px rgba(0, 0, 0, 0.22)" }}
         >
           <p className="text-lg sm:text-3xl text-black font-normal">Explore KBPa with us!</p>
-          <Link href="/explore">
+          <Link href="/home">
             <motion.button
               className="bg-orange-500 hover:bg-[#4743C5] text-white text-xl px-8 py-3 rounded-full font-bold transition-colors duration-300"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{
                 type: "spring",
-                stiffness: 400, // Meningkatkan stiffness untuk bouncing lebih kuat
-                damping: 8, // Mengurangi damping untuk bouncing lebih lama
-                // delay: 1,
+                stiffness: 400,
+                damping: 8,
               }}
             >
               Start Here

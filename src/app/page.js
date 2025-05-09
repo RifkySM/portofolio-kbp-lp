@@ -6,8 +6,28 @@ import WhyKBPa from "@/components/event/why-kbpa"
 import ThingsToDo from "@/components/event/things-to-do"
 import ThisMonthEvent from "@/components/event/this-month-event"
 import Experience from "@/components/event/experience"
+import ParallaxSection from "@/components/events-paralax"
+import GetRideSection from "@/components/get-ride"
+import TitleMaps from "@/components/title-maps"
+import dynamic from "next/dynamic"
+import Feedback from "@/components/feedback"
+import AllVideo from "@/components/all-video"
+import YouTubeVideo from "@/components/youtube-video"
+
 
 export default function KBPayukEvent() {
+  const videoId = "n2EHqFSqFPA"
+  const playlistId = "PLPJVmS5Z-UUkS7AeK4bQVmdCSRJYwqRP0"
+
+  const MapWithNoSSR = dynamic(() => import("@/components/big-maps"), {
+      ssr: false,
+      loading: () => (
+          <div className="h-[900px] w-full bg-gray-200 flex items-center justify-center">
+          <p>Loading Map...</p>
+          </div>
+      ),
+  })
+
   // useEffect(() => {
   //   // Fungsi scroll kustom
   //   const smoothScrollTo = (element, duration = 2000) => {
@@ -57,6 +77,22 @@ export default function KBPayukEvent() {
       <ThingsToDo />
       <ThisMonthEvent />
       <Experience />
+      {/* Paralax Section */}
+      <GetRideSection />
+      <ParallaxSection />
+      <TitleMaps />
+      <section id="maps" className="w-full" style={{ margin: 0, padding: 0 }}>
+          <MapWithNoSSR />
+      </section>
+      <section id="maps" className="w-full" style={{ marginTop: 40, padding: 0 }}>
+        <Feedback />
+      </section>
+      <section id="maps" className="w-full" style={{ marginTop: 40, padding: 0 }}>
+        <AllVideo />
+      </section>
+      <section id="maps" className="w-full" style={{ marginTop: 40, padding: 0 }}>
+        <YouTubeVideo videoId={videoId} playlistId={playlistId} />
+      </section>
     </main>
   )
 }

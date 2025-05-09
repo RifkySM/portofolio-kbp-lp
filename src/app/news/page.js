@@ -152,7 +152,7 @@ export default function NewsPage() {
                         delay: 0.2,
                     }}
                 >
-                    <span className="text-[#000000]">What's On </span> <span className="text-[#e86c32]">KBPa</span>
+                    <span className="text-[#000000]">What&apos;s On </span> <span className="text-[#e86c32]">KBPa</span>
                 </motion.h1>
             </div>
         </div>

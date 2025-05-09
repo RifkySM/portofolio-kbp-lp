@@ -43,7 +43,7 @@ export default function WhyKBPa() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <p className="text-white text-sm">" Cukup sejuk hawanya enak buat gowes santuyy. "</p>
+                <p className="text-white text-sm">&quot;Cukup sejuk hawanya enak buat gowes santuyy.&quot;</p>
                 <p className="text-white text-sm font-semibold mt-2">- Srie Monah</p>
               </motion.div>
             )}
@@ -56,7 +56,7 @@ export default function WhyKBPa() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
               >
-                <p className="text-white text-sm">" Secara keseluruhan, tempat ini luar biasa! "</p>
+                <p className="text-white text-sm">&quot;Secara keseluruhan, tempat ini luar biasa!&quot;</p>
                 <p className="text-white text-ssm font-semibold mt-2">- 江伟雄</p>
               </motion.div>
             )}
@@ -70,7 +70,7 @@ export default function WhyKBPa() {
                 transition={{ duration: 0.3, delay: 0.2 }}
               >
                 <p className="text-white text-sm">
-                  " Lokasi strategis, keluar/masuk tol Padalarang langsung. Fasilitas lengkap "
+                &quot;Lokasi strategis, keluar/masuk tol Padalarang langsung. Fasilitas lengkap&quot;
                 </p>
                 <p className="text-white text-sm font-semibold mt-2">- Widi Budi Nugraha</p>
               </motion.div>

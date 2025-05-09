@@ -126,7 +126,7 @@ export default function footer() {
                 {/* Right side - Contact information */}
                 <div className="text-xs font-bold pt-10 lg:pt-0 px-4 text-center lg:text-left flex flex-col items-center lg:items-start w-full lg:w-auto mx-auto">
                     <p className="font-bold">Discover KBPayuk</p>
-                    <p className="mb-1">What's On</p>
+                    <p className="mb-1">What&apos;s On</p>
                     <p className="mb-1">KBPa Maps</p>
                     <p className="mb-1">KBPa Transportation</p>
 

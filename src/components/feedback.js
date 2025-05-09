@@ -26,10 +26,15 @@ export default function Feedback(){
     
       return (
         <div className="w-full max-w-2xl mx-auto">
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-center mb-2">Send us your feedback!</h1>
-            <p className="text-center text-gray-700">Got any suggestion for us? Type it below.</p>
-          </div>
+            <div className="mb-6">
+                <h1 className="text-3xl font-bold text-black text-left mb-2">
+                    Send us your feedback!
+                </h1>
+                <p className="text-left text-black">
+                    Got any suggestion for us? Type it below.
+                </p>
+            </div>
+
     
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -44,7 +49,7 @@ export default function Feedback(){
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-blue-100/50 rounded-md border-0 focus:ring-2 focus:ring-blue-200"
+                  className="w-full px-3 py-2 bg-blue-100/50 text-black rounded-3xl border border-black focus:ring-2 focus:ring-blue-200"
                 />
               </div>
     
@@ -59,7 +64,7 @@ export default function Feedback(){
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-blue-100/50 rounded-md border-0 focus:ring-2 focus:ring-blue-200"
+                  className="w-full px-3 py-2 bg-blue-100/50 text-black rounded-3xl border border-black focus:ring-2 focus:ring-blue-200"
                 />
               </div>
     
@@ -74,7 +79,7 @@ export default function Feedback(){
                   required
                   value={formData.phoneNumber}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-blue-100/50 rounded-md border-0 focus:ring-2 focus:ring-blue-200"
+                  className="w-full px-3 py-2 bg-blue-100/50 text-black rounded-3xl border border-black focus:ring-2 focus:ring-blue-200"
                 />
               </div>
     
@@ -89,7 +94,7 @@ export default function Feedback(){
                   value={formData.suggestion}
                   onChange={handleChange}
                   rows={8}
-                  className="w-full px-3 py-2 bg-blue-100/50 rounded-md border-0 focus:ring-2 focus:ring-blue-200 resize-none"
+                  className="w-full px-3 py-2 bg-blue-100/50 text-black rounded-3xl border border-black focus:ring-2 focus:ring-blue-200 resize-none"
                 />
               </div>
             </div>
@@ -97,7 +102,7 @@ export default function Feedback(){
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full py-2.5 px-4 border border-orange-400 text-black font-medium rounded-md hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                className="w-full py-2.5 px-4 border border-orange-400 text-black font-medium rounded-3xl hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-300"
               >
                 Submit
               </button>

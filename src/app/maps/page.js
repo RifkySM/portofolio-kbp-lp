@@ -4,10 +4,11 @@ import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import dynamic from "next/dynamic"
 import TitleMaps from "@/components/title-maps"
-import ShuttleInfo from "@/components/shuttle-info"
-import ParallaxSection from "@/components/maps-paralax"
+import ShuttleInfo from "@/components/transportation/shuttle-info"
+import ParallaxMap from "@/components/maps-paralax"
 import GetRideSection from "@/components/get-ride"
-import Feedback from "@/components/feedback"
+import { motion } from "framer-motion";
+
 
 export default function MapsPage() {
     const [isOpen, setIsOpen] = useState(false)
@@ -50,21 +51,41 @@ export default function MapsPage() {
         ),
     })
 
+        // Animation for the bouncing effect
+        const bounceVariants = {
+            initial: {
+                opacity: 1,
+                scale: 0,
+            },
+            animate: {
+              opacity: 1,
+              scale: [0.3, 1.1, 0.9, 1.05, 0.95, 1],
+              transition: {
+                duration: 1.2,
+                times: [0, 0.4, 0.6, 0.8, 0.9, 1],
+                ease: "easeOut"
+              }
+            }
+        };
+
+
     return (
         <main className="min-h-screen bg-white pb-[10vh]">
             {/* Logo and Title */}
             <TitleMaps />
-
+            
             {/* Maps Section */}
-            <section id="maps" className="w-full" style={{ margin: 0, padding: 0 }}>
+            <section id="maps" className="w-full relative z-10" style={{ margin: 0, padding: 0 }}>
                 <MapWithNoSSR />
             </section>
-            
-            {/* Paralax Section */}
-            <ParallaxSection />
-            
-            {/* Shuttle Section */}
-            <section id="shuttle" className="w-full" style={{ margin: 0, padding: 0 }}>
+
+            {/* Parallax Section */}
+            <div className="w-full relative z-20" style={{ margin: 0, padding: 0 }}>
+                <ParallaxMap />
+            </div>
+
+            {/* Shuttle Section - tambahkan marginTop negatif */}
+            <section id="shuttle" className="relative z-30 w-full" style={{ marginTop: "-2px" }}>
                 <ShuttleInfo />
             </section>
 
@@ -75,16 +96,21 @@ export default function MapsPage() {
                 onMouseLeave={() => setIsOpen(false)}
             >
                 {/* Header - Div Hijau */}
-                <div className="bg-[#8CB23E] text-white py-10 px-12 rounded-full flex items-center justify-center cursor-pointer relative z-20">
+                <motion.div 
+                className="bg-[#8CB23E] text-white py-10 px-12 rounded-full flex items-center justify-center cursor-pointer relative z-20"
+                initial="initial"
+                animate="animate"
+                variants={bounceVariants}
+                >
                     <div className="flex items-center">
-                    <div className="text-5xl font-bold mr-2 text-white">?</div>
-                    <div>
+                        <div className="text-5xl font-bold mr-2 text-white">?</div>
+                        <div>
                         <div className="text-3xl font-bold">How to</div>
                         <div className="text-3xl font-bold">Reach</div>
+                        </div>
+                        <div className="text-5xl font-bold ml-2 text-black">KBPa</div>
                     </div>
-                    <div className="text-5xl font-bold ml-2 text-black">KBPa</div>
-                    </div>
-                </div>
+                </motion.div>
 
                 {/* Dropdown Items */}
                 <div
@@ -128,9 +154,6 @@ export default function MapsPage() {
 
             {/* Get Ride Section */}
             <GetRideSection />
-
-            {/* Get Ride Section */}
-            <Feedback />
         </main>
     )
 }

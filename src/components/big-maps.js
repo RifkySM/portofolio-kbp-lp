@@ -29,7 +29,17 @@ export default function MapOnly({ halteData = [], mapCenter = [-6.8722, 107.5286
     }
   
     return (
-      <MapContainer center={mapCenter} zoom={15} style={{ height: "900px", width: "100%" }}>
+      <div className="w-full" style={{ lineHeight: 0 }}> {/* lineHeight: 0 menghilangkan gap */}
+      <MapContainer 
+        center={mapCenter} 
+        zoom={15} 
+        style={{ 
+          height: "500px", 
+          width: "100%",
+          display: "block" // Memastikan tidak ada whitespace
+        }}
+        zoomControl={false} // Pindahkan kontrol zoom jika diperlukan
+      >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -38,5 +48,6 @@ export default function MapOnly({ halteData = [], mapCenter = [-6.8722, 107.5286
           <Marker key={halte.id} position={[halte.lat, halte.lng]} />
         ))}
       </MapContainer>
+    </div>
     )
   }

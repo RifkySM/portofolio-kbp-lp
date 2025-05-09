@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import BusImage from "../../public/bus.png";
 import { motion } from "framer-motion";
 
 export default function GetRideSection() {
@@ -87,7 +86,7 @@ export default function GetRideSection() {
                     variants={busImageVariants}
                 >
                     <Image
-                        src={BusImage}
+                        src="/bus.png"
                         alt="Bus KBPA"
                         width={700}
                         height={629}

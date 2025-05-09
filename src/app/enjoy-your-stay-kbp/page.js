@@ -4,123 +4,23 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 
-const newsData = [
+const stayData = [
   {
     id: 1,
-    title: "Bumi Pancasona : 🏋🏻 NOVEMBER BOOST",
-    date: "Nov 11, 2024",
+    title: "Liburan Berkesan Bersama Keluarga di Mason Pine Hotel",
+    kota: "Kota Baru Parahyangan",
     readTime: "2 min read",
-    image: "/news/news-1.png",
+    image: "/enjoy-your-stay-kbp/image-1.png",
     comments: 0,
-    likes: 1,
+    likes: 5,
     href: "#",
   },
   {
     id: 2,
-    title: "Bumi Hejo : Nite Owl Market Hadir Kembali!",
-    date: "Oct 8, 2024",
-    readTime: "2 min read",
-    image: "/news/news-2.png",
-    comments: 0,
-    likes: 2,
-    href: "#",
-  },
-  {
-    id: 3,
-    title: "Bumi Pancasona : A Journey to Find Balance",
-    date: "Sep 30, 2024",
+    title: "MPH Dragon Lunar Gala Dinner",
+    kota: "Kota Baru Parahyangan",
     readTime: "1 min read",
-    image: "/news/news-3.png",
-    comments: 0,
-    likes: 1,
-    href: "#",
-  },
-  {
-    id: 4,
-    title: "Wahoo Waterworld : Sunset Vibes",
-    date: "Sep 26, 2024",
-    readTime: "1 min read",
-    image: "/news/news-4.png",
-    comments: 0,
-    likes: 1,
-    href: "#",
-  },
-  {
-    id: 5,
-    title: "Bumi Hejo : ACC Carnival Bandung 2024",
-    date: "Sep 20, 2024",
-    readTime: "1 min read",
-    image: "/news/news-5.png",
-    comments: 0,
-    likes: 0,
-    href: "#",
-  },
-  {
-    id: 6,
-    title: "Bumi Pancasona : SEPTEMBER FREE TRIAL CLASS",
-    date: "Sep 6, 2024",
-    readTime: "1 min read",
-    image: "/news/news-6.png",
-    comments: 0,
-    likes: 0,
-    href: "#",
-  },
-  {
-    id: 7,
-    title: "Bumi Play Park : SEMARAK LOMBA 17AN",
-    date: "Aug 9, 2024",
-    readTime: "1 min read",
-    image: "/news/news-7.png",
-    comments: 0,
-    likes: 0,
-    href: "#",
-  },
-  {
-    id: 8,
-    title: "Bumi Pancasona Special Class : Zedfit Merdeka Dance",
-    date: "Aug 8, 2024",
-    readTime: "1 min read",
-    image: "/news/news-8.png",
-    comments: 0,
-    likes: 0,
-    href: "#",
-  },
-  {
-    id: 9,
-    title: "Kota Baru Parahyangan Persembahkan Tempat Bermain Baru: Bumi Skate Park...",
-    date: "Jul 30, 2024",
-    readTime: "3 min read",
-    image: "/news/news-9.png",
-    comments: 0,
-    likes: 0,
-    href: "#",
-  },
-  {
-    id: 10,
-    title: "KULINERAN DI PASAR",
-    date: "Jul 23, 2024",
-    readTime: "1 min read",
-    image: "/news/news-10.png",
-    comments: 0,
-    likes: 3,
-    href: "#",
-  },
-  {
-    id: 11,
-    title: "Serunya Bermain Air Bersama Keluarga di Wahoo Waterland",
-    date: "Jul 5, 2024",
-    readTime: "3 min read",
-    image: "/news/news-11.png",
-    comments: 0,
-    likes: 2,
-    href: "#",
-  },
-  {
-    id: 12,
-    title: "Santai Asyik Bareng Keluarga di Tepi Danau",
-    date: "Jul 4, 2024",
-    readTime: "2 min read",
-    image: "/news/news-12.png",
+    image: "/enjoy-your-stay-kbp/image-2.png",
     comments: 0,
     likes: 2,
     href: "#",
@@ -140,8 +40,8 @@ export default function NewsPage() {
     <main className="min-h-screen bg-white">
       <div className="container mx-auto">
         {/* Title */}
-        <div className="text-center pt-10">
-            <div className="overflow-hidden">
+        <div className="text-center py-14">
+            <div>
                 <motion.h1
                     className="text-3xl sm:text-5xl font-semibold block"
                     initial={{ y: 100, opacity: 0 }}
@@ -152,16 +52,16 @@ export default function NewsPage() {
                         delay: 0.2,
                     }}
                 >
-                    <span className="text-[#000000]">What's On </span> <span className="text-[#e86c32]">KBPa</span>
+                    <span className="text-[#000000]">Enjoy your stay at</span> <span className="text-[#8cb04a]">KBPa</span>
                 </motion.h1>
             </div>
         </div>
 
         {/* News Grid */}
-        <div className="py-9 max-w-[920px] mx-auto pb-6">
+        <div className="pb-9 max-w-[950px] mx-auto pb-6">
           <div className="grid grid-cols-1 px-4 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {newsData.map((news) => (
-              <NewsCard key={news.id} news={news} />
+            {stayData.map((stay) => (
+              <StayCard key={stay.id} stay={stay} />
             ))}
           </div>
         </div>
@@ -175,7 +75,7 @@ export default function NewsPage() {
   )
 }
 
-function NewsCard({ news }) {
+function StayCard({ stay }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isCommentHovered, setIsCommentHovered] = useState(false)
 
@@ -183,31 +83,30 @@ function NewsCard({ news }) {
     <div
       className="relative h-[292px] overflow-hidden"
       style={{
-        backgroundImage: `url(${news.image})`,
+        backgroundImage: `url(${stay.image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="absolute inset-0 py-8 px-6 flex flex-col justify-between" style={{ backgroundColor: "rgba(0, 0, 0, 0.41)" }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-        {/* Date and Read Time */}
-        <div className="text-white-100 text-[11px]">
-          <span>{news.date}</span>
-          <span className="mx-2">•</span>
-          <span>{news.readTime}</span>
+      <div className="absolute inset-0 py-8 px-6 flex flex-col justify-between" style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        {/* Kota and read time */}
+        <div className="text-white">
+          <div className="text-xs font-semibold">{stay.kota}</div>
+          <div className="text-xs font-semibold">{stay.readTime}</div>
         </div>
 
         {/* Card Title */}
         <div className="mt-auto">
           <Link
-            href={news.href}
+            href={stay.href}
             className="block"
           >
             <h2
-              className={`text-xl sm:text-sm font-bold transition-colors ${
-                isHovered ? "text-[#e86c32]" : "text-white"
+              className={`text-xl sm:text-[16px] leading-snug font-bold transition-colors ${
+                isHovered ? "text-[#818cf8]" : "text-white"
               }`}
             >
-              {news.title}
+              {stay.title}
             </h2>
 
             <div className="border-t-2 border-white my-3"></div>
@@ -235,11 +134,11 @@ function NewsCard({ news }) {
               >
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
               </svg>
-              <span className="text-white text-sm">{news.comments}</span>
+              <span className="text-white text-sm">{stay.comments}</span>
             </div>
             <Link href="#" className="flex items-center space-x-2 group">
               {/* Like */}
-              <span className="text-white text-sm">{news.likes}</span>
+              <span className="text-white text-sm">{stay.likes}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"

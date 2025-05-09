@@ -22,24 +22,20 @@ export default function MasonPineHotelPage() {
 
   useEffect(() => {
     setMounted(true)
-    
-    startAutoplay()
-    
-    return () => {
-      if (autoplayRef.current) clearInterval(autoplayRef.current)
-      if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current)
-    }
-  }, [])
-
-  const startAutoplay = () => {
+  
     if (autoplayRef.current) clearInterval(autoplayRef.current)
-    
     autoplayRef.current = setInterval(() => {
       if (!isInteractingRef.current) {
         nextSlide()
       }
     }, 5000)
-  }
+  
+    return () => {
+      if (autoplayRef.current) clearInterval(autoplayRef.current)
+      if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current)
+    }
+  }, [])
+  
   
   const pauseAutoplay = () => {
     isInteractingRef.current = true
@@ -178,7 +174,7 @@ export default function MasonPineHotelPage() {
             kenyamanan modern dan keindahan alam. Dikelilingi oleh pemandangan pegunungan yang menakjubkan, hotel ini
             menyediakan fasilitas lengkap seperti{" "}
             <span className="text-[#b08d57] font-bold">
-              kolam renang berukuran Olimpiade, Kid's Club, Gym, hingga Spa.
+              kolam renang berukuran Olimpiade, Kid&apos;s Club, Gym, hingga Spa.
             </span>
           </p>
 

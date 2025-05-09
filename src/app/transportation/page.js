@@ -130,7 +130,7 @@ const MapWithNoSSR = dynamic(() => import("../../components/transportation/map-c
 
 export default function TransportationPage() {
   const [selectedHalte, setSelectedHalte] = useState(null)
-  const [mapCenter, setMapCenter] = useState([-6.8761, 107.5771]) // Default center
+  const [mapCenter, setMapCenter] = useState([-6.8761, 107.5771])
   const halteRefs = useRef({})
   const [mapKey, setMapKey] = useState(Date.now())
 
@@ -215,13 +215,22 @@ export default function TransportationPage() {
       
               {/* Schedule Image */}
               <div className="flex flex-col items-center">
-                <div className="w-full max-w-5xl aspect-[4/3] relative">
-                  <Image
-                    src={halte.scheduleImage}
-                    alt={`Jadwal ${halte.name}`}
-                    fill
-                    className="object-contain rounded-md"
-                  />
+                <div className="w-full flex justify-center">
+                  <div
+                    className="relative w-full max-w-[90%] sm:max-w-[80%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[unset]"
+                    style={{
+                      width: `${halte.width}px`,
+                      height: `${halte.height}px`,
+                    }}
+                  >
+                    <Image
+                      src={halte.scheduleImage}
+                      alt={`Jadwal ${halte.name}`}
+                      fill
+                      className="object-contain rounded-md"
+                      sizes="(max-width: 768px) 90vw, auto"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

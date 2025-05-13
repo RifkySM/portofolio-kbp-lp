@@ -77,17 +77,17 @@ export default function ThisMonthEvent() {
           animate={
             isInView
               ? {
-                  opacity: 1,
-                  rotateX: 0,
-                  y: 0,
-                  rotateZ: 0,
-                }
+                opacity: 1,
+                rotateX: 0,
+                y: 0,
+                rotateZ: 0,
+              }
               : {
-                  opacity: 0,
-                  rotateX: 180,
-                  y: 100,
-                  rotateZ: -50,
-                }
+                opacity: 0,
+                rotateX: 180,
+                y: 100,
+                rotateZ: -50,
+              }
           }
           transition={{
             duration: 1.5,
@@ -101,7 +101,7 @@ export default function ThisMonthEvent() {
         >
           {eventData.map((event) => {
             return (
-              <div key={event.id} className="w-full md:w-[300px] h-[600px] relative">
+              <div key={event.id} className="w-[80%] md:w-[300px] h-[600px] relative mt-6">
                 {/* Background image */}
                 <div
                   className="absolute inset-0 rounded-t-full overflow-hidden"

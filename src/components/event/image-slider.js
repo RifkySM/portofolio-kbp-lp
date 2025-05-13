@@ -156,9 +156,9 @@ function EventSlider() {
   }, [isAnimating])
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative w-full h-full">
       {/* Background Images */}
-      <div className="h-[calc(100vh-30px)] overflow-hidden relative">
+      <div className="h-[calc(50vh-30px)] overflow-hidden relative">
         <AnimatePresence initial={false} mode="sync">
           <motion.div
             key={`image-${currentSlide}`}
@@ -195,11 +195,10 @@ function EventSlider() {
                   transition={{ duration: 0.8 }}
                 >
                   <motion.h1
-                    className={`text-white ${
-                      part.isBold
-                        ? "text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold"
-                        : "text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-normal"
-                    } mb-2`}
+                    className={`text-white ${part.isBold
+                      ? "text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold"
+                      : "text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-normal"
+                      } mb-2`}
                     initial={{ x: 100, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ y: "-100%", opacity: 0 }}
@@ -250,15 +249,15 @@ function EventSlider() {
       </div>
 
       {/* Explore Bar */}
-      <div className="relative z-10 -mt-16">
+      <div className="relative z-10 -mt-[4vh]">
         <div
-          className="bg-white rounded-full mx-auto max-w-4xl flex items-center justify-between px-12 py-10"
+          className="bg-white rounded-full mx-6 md:mx-auto max-w-4xl flex items-center justify-between px-8 md:px-12 py-4 md:py-10"
           style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.25), 0 6px 10px rgba(0, 0, 0, 0.22)" }}
         >
-          <p className="text-lg sm:text-3xl text-black font-normal">Explore KBPa with us!</p>
-          <Link href="/home">
+          <p className="text-sm md:text-3xl text-black font-normal">Explore KBPa with us!</p>
+          <Link href="#">
             <motion.button
-              className="bg-orange-500 hover:bg-[#4743C5] text-white text-xl px-8 py-3 rounded-full font-bold transition-colors duration-300"
+              className="bg-orange-500 hover:bg-[#4743C5] text-white text-sm md:text-2xl px-8 py-2 md:py-4 rounded-full font-bold transition-colors duration-300"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{

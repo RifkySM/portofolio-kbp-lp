@@ -63,10 +63,11 @@ export default function ThingsToDo() {
 
         {/* Things to do items */}
         <div className="flex flex-col items-center">
-          <div className="flex justify-center w-full mb-8">
-            {/* Panel 01 Attraction */}
-            <div className="relative mx-16">
-              <div className="bg-[#2374E1] text-white rounded-full py-4 pl-8 pr-10 inline-flex items-center">
+          {/* Wrapper Baris Pertama */}
+          <div className="flex flex-col md:flex-row justify-center items-center w-full mb-8 space-y-6 md:space-y-0">
+            {/* Item 1 */}
+            <div className="relative md:mx-16 w-full md:w-auto">
+              <div className="bg-[#2374E1] text-white rounded-full py-4 pl-8 pr-10 inline-flex items-center w-full justify-between md:justify-start">
                 <motion.div
                   className="flex items-center"
                   initial={{ opacity: 0, y: 50 }}
@@ -74,19 +75,22 @@ export default function ThingsToDo() {
                   transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
                 >
                   <span className="text-md font-bold mr-4">{thingsToDoItems[0].number}</span>
-                  <span className="text-3xl font-bold">{thingsToDoItems[0].title}</span>
+                  <span className="text-md md:text-3xl font-bold">{thingsToDoItems[0].title}</span>
                 </motion.div>
               </div>
-              <Link href={thingsToDoItems[0].link} className="absolute -right-20 top-1/2 transform -translate-y-1/2">
+              <Link
+                href={thingsToDoItems[0].link}
+                className="absolute right-4 md:-right-20 top-1/2 transform -translate-y-1/2"
+              >
                 <div className="bg-white text-[#E6B03B] text-sm font-medium py-1.5 px-4 rounded-full border-2 border-[#E6B03B] hover:bg-[#C64700] hover:text-white hover:border-[#C64700] duration-200">
                   View More
                 </div>
               </Link>
             </div>
 
-            {/* Panel 02 KBPa Foodtalk */}
-            <div className="relative mx-16">
-              <div className="bg-[#2374E1] text-white rounded-full py-4 pl-8 pr-10 inline-flex items-center">
+            {/* Item 2 */}
+            <div className="relative md:mx-16 w-full md:w-auto">
+              <div className="bg-[#2374E1] text-white rounded-full py-4 pl-8 pr-10 inline-flex items-center w-full justify-between md:justify-start">
                 <motion.div
                   className="flex items-center"
                   initial={{ opacity: 0, y: 50 }}
@@ -94,10 +98,13 @@ export default function ThingsToDo() {
                   transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
                 >
                   <span className="text-md font-bold mr-4">{thingsToDoItems[1].number}</span>
-                  <span className="text-3xl font-bold">{thingsToDoItems[1].title}</span>
+                  <span className="text-md md:text-3xl font-bold">{thingsToDoItems[1].title}</span>
                 </motion.div>
               </div>
-              <Link href={thingsToDoItems[1].link} className="absolute -right-20 top-1/2 transform -translate-y-1/2">
+              <Link
+                href={thingsToDoItems[1].link}
+                className="absolute right-4 md:-right-20 top-1/2 transform -translate-y-1/2"
+              >
                 <div className="bg-white text-[#E6B03B] text-sm font-medium py-1.5 px-4 rounded-full border-2 border-[#E6B03B] hover:bg-[#C64700] hover:text-white hover:border-[#C64700] duration-200">
                   View More
                 </div>
@@ -105,10 +112,11 @@ export default function ThingsToDo() {
             </div>
           </div>
 
-          <div className="flex justify-center w-full mb-8">
-            {/* Panel 03 Find it, Love it, Buy it */}
-            <div className="relative mx-16">
-              <div className="bg-[#2374E1] text-white rounded-full py-4 pl-8 pr-10 inline-flex items-center">
+          {/* Wrapper Baris Kedua */}
+          <div className="flex flex-col md:flex-row justify-center items-center w-full mb-8 space-y-6 md:space-y-0">
+            {/* Item 3 */}
+            <div className="relative md:mx-16 w-full md:w-auto">
+              <div className="bg-[#2374E1] text-white rounded-full py-4 pl-8 pr-10 inline-flex items-center w-full justify-between md:justify-start">
                 <motion.div
                   className="flex items-center"
                   initial={{ opacity: 0, y: 50 }}
@@ -116,19 +124,22 @@ export default function ThingsToDo() {
                   transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
                 >
                   <span className="text-md font-bold mr-4">{thingsToDoItems[2].number}</span>
-                  <span className="text-3xl font-bold">{thingsToDoItems[2].title}</span>
+                  <span className="text-md md:text-3xl font-bold">{thingsToDoItems[2].title}</span>
                 </motion.div>
               </div>
-              <Link href={thingsToDoItems[2].link} className="absolute -right-20 top-1/2 transform -translate-y-1/2">
+              <Link
+                href={thingsToDoItems[2].link}
+                className="absolute right-4 md:-right-20 top-1/2 transform -translate-y-1/2"
+              >
                 <div className="bg-white text-[#E6B03B] text-sm font-medium py-1.5 px-4 rounded-full border-2 border-[#E6B03B] hover:bg-[#C64700] hover:text-white hover:border-[#C64700] duration-200">
                   View More
                 </div>
               </Link>
             </div>
 
-            {/* Panel 04 Wellness */}
-            <div className="relative mx-16">
-              <div className="bg-[#2374E1] text-white rounded-full py-4 pl-8 pr-10 inline-flex items-center">
+            {/* Item 4 */}
+            <div className="relative md:mx-16 w-full md:w-auto">
+              <div className="bg-[#2374E1] text-white rounded-full py-4 pl-8 pr-10 inline-flex items-center w-full justify-between md:justify-start">
                 <motion.div
                   className="flex items-center"
                   initial={{ opacity: 0, y: 50 }}
@@ -136,10 +147,13 @@ export default function ThingsToDo() {
                   transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
                 >
                   <span className="text-md font-bold mr-4">{thingsToDoItems[3].number}</span>
-                  <span className="text-3xl font-bold">{thingsToDoItems[3].title}</span>
+                  <span className="text-md md:text-3xl font-bold">{thingsToDoItems[3].title}</span>
                 </motion.div>
               </div>
-              <Link href={thingsToDoItems[3].link} className="absolute -right-20 top-1/2 transform -translate-y-1/2">
+              <Link
+                href={thingsToDoItems[3].link}
+                className="absolute right-4 md:-right-20 top-1/2 transform -translate-y-1/2"
+              >
                 <div className="bg-white text-[#E6B03B] text-sm font-medium py-1.5 px-4 rounded-full border-2 border-[#E6B03B] hover:bg-[#C64700] hover:text-white hover:border-[#C64700] duration-200">
                   View More
                 </div>
@@ -147,6 +161,7 @@ export default function ThingsToDo() {
             </div>
           </div>
         </div>
+
 
         {/* Images section */}
         <div className="flex justify-center relative">

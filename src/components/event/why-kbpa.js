@@ -70,7 +70,7 @@ export default function WhyKBPa() {
                 transition={{ duration: 0.3, delay: 0.2 }}
               >
                 <p className="text-white text-sm">
-                &quot;Lokasi strategis, keluar/masuk tol Padalarang langsung. Fasilitas lengkap&quot;
+                  &quot;Lokasi strategis, keluar/masuk tol Padalarang langsung. Fasilitas lengkap&quot;
                 </p>
                 <p className="text-white text-sm font-semibold mt-2">- Widi Budi Nugraha</p>
               </motion.div>
@@ -196,7 +196,7 @@ export default function WhyKBPa() {
         </div>
       </div>
 
-      <div className="w-full pt-20 flex justify-center items-center gap-10">
+      <div className="flex ml-4 pt-20 justify-center items-center gap-10">
         <motion.div
           className="relative flex items-center"
           initial={{ opacity: 0, y: 20 }}

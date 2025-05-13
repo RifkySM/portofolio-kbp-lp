@@ -109,19 +109,18 @@ export default function Experience() {
   return (
     <section className="w-full">
       {/* Banner Slider */}
-      <div className="relative w-full h-[430px] overflow-hidden">
+      <div className="relative w-full h-[20vh] overflow-hidden">
         {bannerImages.map((image, index) => (
           <div
             key={image.id}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"
+              }`}
           >
             <Image
               src={image.src || "/placeholder.svg"}
               alt={image.alt}
               fill
-              className="object-cover"
+              className="object-contain md:object-cover"
               priority={index === 0}
             />
           </div>
@@ -178,7 +177,7 @@ export default function Experience() {
       </div>
 
       {/* Disclaimer Text */}
-      <div className="container mx-auto pl-28 py-6 text-left text-xs font-semibold italic text-black">
+      <div className="flex justify-center mx-auto py-6 text-xs font-semibold italic text-black">
         Keseluruhan validasi mengenai informasi promo discount merupakan tanggung jawab masing masing tenant yang
         memberikan benefit tersebut.
       </div>

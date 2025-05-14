@@ -158,7 +158,7 @@ function EventSlider() {
   return (
     <div className="relative w-full h-full">
       {/* Background Images */}
-      <div className="h-[calc(50vh-30px)] overflow-hidden relative">
+      <div className="min-h-[980px] overflow-hidden relative">
         <AnimatePresence initial={false} mode="sync">
           <motion.div
             key={`image-${currentSlide}`}

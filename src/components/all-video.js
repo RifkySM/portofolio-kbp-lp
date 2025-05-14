@@ -26,11 +26,11 @@ export default function VideoCarouselWithRealImages() {
   }
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto">
+    <div className="w-full mt-10">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-3 border-b">
         <button className="p-1 hover:bg-gray-100 rounded-full border border-transparent group">
-            <MoreVertical size={20} className="text-black group-hover:text-gray-500" />
+          <MoreVertical size={20} className="text-black group-hover:text-gray-500" />
         </button>
         <h2 className="text-lg font-medium !text-black">All Videos</h2>
       </div>
@@ -39,14 +39,14 @@ export default function VideoCarouselWithRealImages() {
       <div className="relative">
         {/* Left Scroll Button */}
         <button
-            onClick={scrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-transparent hover:bg-transparent rounded-full p-2"
-            aria-label="Scroll left"
+          onClick={scrollLeft}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-transparent hover:bg-transparent rounded-full p-2"
+          aria-label="Scroll left"
         >
-            <ChevronLeft
-                size={24}
-                className="text-white hover:text-grey transition-colors duration-200"
-            />
+          <ChevronLeft
+            size={24}
+            className="text-white hover:text-grey transition-colors duration-200"
+          />
         </button>
 
         {/* Scrollable Container */}
@@ -59,7 +59,7 @@ export default function VideoCarouselWithRealImages() {
           }}
         >
           {/* You can replace these with your actual images */}
-          <div className="flex-none w-[500px] min-w-[500px] h-[300px] snap-start relative rounded-lg overflow-hidden">
+          <div className="flex-none w-[100%] md:w-[620px] md:min-w-[620px] h-[420px] snap-start relative overflow-hidden">
             <Image
               src="/paralax-event.png"
               alt="Video thumbnail"
@@ -67,7 +67,7 @@ export default function VideoCarouselWithRealImages() {
               className="object-cover"
             />
           </div>
-          <div className="flex-none w-[500px] min-w-[500px] h-[300px] snap-start relative rounded-lg overflow-hidden">
+          <div className="flex-none w-[100%] md:w-[620px] md:min-w-[620px] h-[420px] snap-start relative overflow-hidden">
             <Image
               src="/paralax-event.png"
               alt="Video thumbnail"
@@ -75,7 +75,7 @@ export default function VideoCarouselWithRealImages() {
               className="object-cover"
             />
           </div>
-          <div className="flex-none w-[500px] min-w-[500px] h-[300px] snap-start relative rounded-lg overflow-hidden">
+          <div className="flex-none w-[100%] md:w-[620px] md:min-w-[620px] h-[420px] snap-start relative overflow-hidden">
             <Image
               src="/paralax-event.png"
               alt="Video thumbnail"
@@ -83,7 +83,7 @@ export default function VideoCarouselWithRealImages() {
               className="object-cover"
             />
           </div>
-          <div className="flex-none w-[500px] min-w-[500px] h-[300px] snap-start relative rounded-lg overflow-hidden">
+          <div className="flex-none w-[100%] md:w-[620px] md:min-w-[620px] h-[420px] snap-start relative overflow-hidden">
             <Image
               src="/paralax-event.png"
               alt="Video thumbnail"
@@ -91,7 +91,7 @@ export default function VideoCarouselWithRealImages() {
               className="object-cover"
             />
           </div>
-          <div className="flex-none w-[500px] min-w-[500px] h-[300px] snap-start relative rounded-lg overflow-hidden">
+          <div className="flex-none w-[100%] md:w-[620px] md:min-w-[620px] h-[420px] snap-start relative overflow-hidden">
             <Image
               src="/paralax-event.png"
               alt="Video thumbnail"
@@ -103,14 +103,14 @@ export default function VideoCarouselWithRealImages() {
 
         {/* Right Scroll Button */}
         <button
-            onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-transparent hover:bg-transparent rounded-full p-2"
-            aria-label="Scroll right"
+          onClick={scrollRight}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-transparent hover:bg-transparent rounded-full p-2"
+          aria-label="Scroll right"
         >
-            <ChevronRight
-                size={24}
-                className="text-white hover:text-grey transition-colors duration-200"
-            />
+          <ChevronRight
+            size={24}
+            className="text-white hover:text-grey transition-colors duration-200"
+          />
         </button>
       </div>
     </div>

@@ -87,9 +87,9 @@ export default function KBPayukEvent() {
       <section id="maps" className="w-full" style={{ marginTop: 40, padding: 0 }}>
         <Feedback />
       </section>
-      <section id="maps" className="w-full" style={{ marginTop: 40, padding: 0 }}>
-        <AllVideo />
-      </section>
+
+      <AllVideo />
+
       <section id="maps" className="w-full" style={{ marginTop: 40, padding: 0 }}>
         <YouTubeVideo videoId={videoId} playlistId={playlistId} />
       </section>

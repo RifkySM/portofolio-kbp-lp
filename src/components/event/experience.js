@@ -109,7 +109,7 @@ export default function Experience() {
   return (
     <section className="w-full">
       {/* Banner Slider */}
-      <div className="relative w-full h-[20vh] overflow-hidden">
+      <div className="relative w-full h-[600px] overflow-hidden">
         {bannerImages.map((image, index) => (
           <div
             key={image.id}
@@ -120,7 +120,7 @@ export default function Experience() {
               src={image.src || "/placeholder.svg"}
               alt={image.alt}
               fill
-              className="object-contain md:object-cover"
+              className="object-contain md:object-contain"
               priority={index === 0}
             />
           </div>

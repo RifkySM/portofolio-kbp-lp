@@ -6,41 +6,7 @@ import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname } from "next/navigation"
 
-const menuItems = [
-  {
-    title: "Discover KBPayuk",
-    href: "#",
-    dropdownItems: [
-      { title: "Attractions", href: "/attractions" },
-      { title: "Food", href: "/food" },
-      { title: "Shopping", href: "/shopping" },
-      { title: "Wellness", href: "/wellness" },
-    ],
-  },
-  {
-    title: "What's On",
-    href: "#",
-    dropdownItems: [
-      { title: "KBPayuk Event", href: "/" },
-      { title: "News", href: "/news" },
-    ],
-  },
-  {
-    title: "Enjoy Your Stay",
-    href: "#",
-    dropdownItems: [{ title: "Mason Pine Hotel", href: "/masonpinehotel" }],
-  },
-  {
-    title: "Get Explore",
-    href: "#",
-    dropdownItems: [
-      { title: "KBPa Maps", href: "/maps" },
-      { title: "KBPa Transportation", href: "/transportation" },
-    ],
-  },
-]
-
-export default function Topbar() {
+export default function Topbar({ menuItems }) {
   const [activeDropdown, setActiveDropdown] = useState(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [expandedMobileDropdown, setExpandedMobileDropdown] = useState(null)

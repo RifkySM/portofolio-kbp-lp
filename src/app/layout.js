@@ -2,8 +2,9 @@ import Topbar from "@/components/topbar"
 import Footer from "@/components/footer"
 import "./globals.css"
 import { Poppins } from 'next/font/google'
+import { generateMenu } from "@/util/generateMenu"
 
-const poppins = Poppins({ 
+const poppins = Poppins({
   weight: ['300', '400', '500', '600', '700'], // Berbagai ketebalan font yang dibutuhkan
   subsets: ['latin'],                          // Subset karakter
   display: 'swap',                             // Strategi loading font
@@ -18,11 +19,12 @@ export const metadata = {
   }
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const menuItems = await generateMenu()
   return (
     <html lang="id" className={poppins.variable}>
       <body className={`font-poppins ${poppins.className}`}>
-        <Topbar />
+        <Topbar menuItems={menuItems} />
         {children}
         <Footer />
       </body>

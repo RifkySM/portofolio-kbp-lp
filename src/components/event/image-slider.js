@@ -1,159 +1,70 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
+import axiosClient from "@/lib/axiosClient"
 
-// Data untuk slider
-const sliderData = [
-  {
-    id: 1,
-    image: "/event/image-slider/wahoo.png",
-    title: [
-      { text: "create your", isBold: false },
-      { text: "bold & fun", isBold: true },
-      { text: "water experience", isBold: false },
-    ],
-    logo: "/attractions/splash/logo-1.png",
-  },
-  {
-    id: 2,
-    image: "/event/image-slider/mason-pine-hotel.png",
-    title: [
-      { text: "spend your", isBold: false },
-      { text: "luxury holiday", isBold: true },
-      { text: "with our ★★★★★ hotel,", isBold: false },
-    ],
-    logo: "/attractions/splash/logo-3.png",
-  },
-  {
-    id: 3,
-    image: "/event/image-slider/parahyangan-golf.png",
-    title: [
-      { text: "connect with", isBold: false },
-      { text: "nature", isBold: true },
-      { text: "guide your ultimate golfing experience", isBold: false },
-    ],
-    logo: "/attractions/fun/logo-1.png",
-  },
-  {
-    id: 4,
-    image: "/event/image-slider/bumi-pancasona.png",
-    title: [
-      { text: "get fit &", isBold: true },
-      { text: "go further", isBold: true },
-    ],
-    logo: "/attractions/fun/logo-2.png",
-  },
-  {
-    id: 5,
-    image: "/event/image-slider/bumi-hejo.png",
-    title: [
-      { text: "taste the", isBold: false },
-      { text: "sweetness", isBold: true },
-      { text: "or lifestyle in nature", isBold: false },
-    ],
-    logo: "/attractions/fun/logo-3.png",
-  },
-  {
-    id: 6,
-    image: "/event/image-slider/pasar-parahyangan.png",
-    title: [
-      { text: "shop", isBold: false },
-      { text: "your needs", isBold: true },
-      { text: "with Curated Local Market", isBold: false },
-    ],
-    logo: "/event/image-slider/logo-pasar-parahyangan.png",
-  },
-  {
-    id: 7,
-    image: "/event/image-slider/bumi-skatepark.png",
-    title: [
-      { text: "find your flow", isBold: false },
-      { text: "on the pump,", isBold: true },
-      { text: "ramp & bowl", isBold: false },
-    ],
-    logo: "/attractions/fun/logo-5.png",
-  },
-  {
-    id: 8,
-    image: "/event/image-slider/bumi-playpark.png",
-    title: [
-      { text: "slide,", isBold: true },
-      { text: "swing,", isBold: true },
-      { text: "explore", isBold: false },
-      { text: "& fun awaits", isBold: false },
-    ],
-    logo: "/attractions/fun/logo-4.png",
-  },
-  {
-    id: 9,
-    image: "/event/image-slider/balepare.png",
-    title: [
-      { text: "savor", isBold: false },
-      { text: "nature's", isBold: true },
-      { text: "flavors", isBold: true },
-      { text: "dine & gather", isBold: false },
-    ],
-    logo: "/attractions/fun/logo-6.png",
-  },
-  {
-    id: 10,
-    image: "/event/image-slider/sundial.png",
-    title: [
-      { text: "discover the", isBold: false },
-      { text: "wonder", isBold: true },
-      { text: "of science in motion", isBold: false },
-    ],
-    logo: "/attractions/art/logo-1.png",
-  },
-  {
-    id: 11,
-    image: "/event/image-slider/baleseni.png",
-    title: [
-      { text: "unleash your", isBold: false },
-      { text: "creativity", isBold: true },
-      { text: "explore the arts,", isBold: false },
-    ],
-    logo: "/attractions/art/logo-2.png",
-  },
-  {
-    id: 12,
-    image: "/event/image-slider/ikea-store.png",
-    title: [
-      { text: "beautiful your", isBold: false },
-      { text: "home decor", isBold: true },
-      { text: "with limitless shopping", isBold: false },
-    ],
-    logo: "/event/image-slider/logo-ikea-store.png",
-  },
-]
-
+// Main Home Page Component
 export default function HomePage() {
+  const [sliderData, setSliderData] = useState([])
+
+  useEffect(() => {
+    const fetchSliders = async () => {
+      try {
+        const response = await axiosClient.get("/slider/display")
+
+        setSliderData(response?.data?.data?.map((slider) => ({
+          id: slider.id,
+          image: slider.banner,
+          title: slider.title,
+          logo: slider.site_logo,
+          link: slider.link,
+        })) || [])
+      } catch (error) {
+        console.error("Error fetching slider data:", error)
+        setSliderData([])
+      }
+    }
+
+    fetchSliders()
+  }, [])
+
   return (
     <main>
-      <EventSlider />
+      <EventSlider sliderData={sliderData} />
     </main>
   )
 }
 
 // Event Slider Component
-function EventSlider() {
+function EventSlider({ sliderData }) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
 
+  // Function to move to next slide
+  const nextSlide = useCallback(() => {
+    if (sliderData.length === 0) return
+    setIsAnimating(true)
+    setCurrentSlide((prev) => (prev + 1) % sliderData.length)
+    setTimeout(() => setIsAnimating(false), 1000)
+  }, [sliderData])
+
+  // Interval for automatic slide
   useEffect(() => {
+    if (sliderData.length === 0) return
+
     const interval = setInterval(() => {
       if (!isAnimating) {
-        setIsAnimating(true)
-        setCurrentSlide((prev) => (prev + 1) % sliderData.length)
-        setTimeout(() => setIsAnimating(false), 1000)
+        nextSlide()
       }
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [isAnimating])
+  }, [isAnimating, nextSlide, sliderData.length])
+
+  if (sliderData.length === 0) return null
 
   return (
     <div className="relative w-full h-full">
@@ -169,45 +80,32 @@ function EventSlider() {
             transition={{ duration: 1, ease: "easeInOut" }}
           >
             <Image
-              src={sliderData[currentSlide].image || "/placeholder.svg"}
+              src={sliderData[currentSlide]?.image || "/placeholder.svg"}
               alt={`Slide ${currentSlide + 1}`}
               fill
               className="object-cover"
               priority
             />
-            {/* Overlay for better text readability */}
             <div className="absolute inset-0 bg-black/10" />
           </motion.div>
         </AnimatePresence>
 
         {/* Content Container */}
         <div className="absolute inset-0 flex flex-col justify-end pb-24 items-start px-8 sm:px-16 md:px-24 lg:px-72">
-          {/* Description Image */}
+          {/* Title Animation */}
           <div className="mb-4">
             <AnimatePresence mode="wait">
-              {sliderData[currentSlide].title.map((part, index) => (
+              <div className="flex flex-wrap gap-x-3">
                 <motion.div
-                  key={`title-${currentSlide}-${index}`}
-                  className="overflow-hidden"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, y: "-100%" }}
+                  key={`title-${currentSlide}`}
+                  className="text-white text-5xl sm:text-6xl md:text-6xl lg:text-7xl mb-2"
+                  initial={{ x: 100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ y: "-100%", opacity: 0 }}
                   transition={{ duration: 0.8 }}
-                >
-                  <motion.h1
-                    className={`text-white ${part.isBold
-                      ? "text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold"
-                      : "text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-normal"
-                      } mb-2`}
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ y: "-100%", opacity: 0 }}
-                    transition={{ duration: 0.8 }}
-                  >
-                    {part.text}
-                  </motion.h1>
-                </motion.div>
-              ))}
+                  dangerouslySetInnerHTML={{ __html: sliderData[currentSlide]?.title || '' }}
+                />
+              </div>
             </AnimatePresence>
           </div>
 
@@ -235,9 +133,9 @@ function EventSlider() {
               exit={{ y: "-100%", opacity: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <Link href="#">
+              <Link href={sliderData[currentSlide]?.link || "#"}>
                 <Image
-                  src={sliderData[currentSlide].logo || "/placeholder.svg"}
+                  src={sliderData[currentSlide]?.logo || "/placeholder.svg"}
                   alt="Logo"
                   fill
                   className="object-contain"
@@ -252,7 +150,9 @@ function EventSlider() {
       <div className="relative z-10 -mt-[4vh]">
         <div
           className="bg-white rounded-full mx-6 md:mx-auto max-w-4xl flex items-center justify-between px-8 md:px-12 py-4 md:py-10"
-          style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.25), 0 6px 10px rgba(0, 0, 0, 0.22)" }}
+          style={{
+            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.25), 0 6px 10px rgba(0, 0, 0, 0.22)"
+          }}
         >
           <p className="text-sm md:text-3xl text-black font-normal">Explore KBPa with us!</p>
           <Link href="#">

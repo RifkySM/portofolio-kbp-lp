@@ -1,13 +1,20 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import useAxios from "@/hooks/useAxios"
+import { useState } from "react"
 
 export default function Feedback() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phoneNumber: "",
-    suggestion: "",
+    phone: "",
+    feedback: "",
+  })
+
+  const { data, loading, error, fetchData } = useAxios({
+    method: "POST",
+    url: "/feedback",
+    immediate: false
   })
 
   const handleChange = (e) => {
@@ -18,10 +25,22 @@ export default function Feedback() {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     console.log("Form submitted:", formData)
-    // Here you would typically send the data to your backend
+
+    // Kirim data
+    await fetchData({ data: formData })
+
+    // Jika sukses, reset form
+    if (!error) {
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        feedback: "",
+      })
+    }
   }
 
   return (
@@ -35,9 +54,9 @@ export default function Feedback() {
         </p>
       </div>
 
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Name */}
           <div className="space-y-2">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name <span className="text-red-500">*</span>
@@ -53,7 +72,8 @@ export default function Feedback() {
             />
           </div>
 
-          <div className="md:row-start-2 space-y-2">
+          {/* Email */}
+          <div className="space-y-2">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email <span className="text-red-500">*</span>
             </label>
@@ -68,32 +88,34 @@ export default function Feedback() {
             />
           </div>
 
-          <div className="md:row-start-3 space-y-2">
-            <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
+          {/* Phone */}
+          <div className="space-y-2">
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
               Phone Number <span className="text-red-500">*</span>
             </label>
             <input
               type="tel"
-              id="phoneNumber"
-              name="phoneNumber"
+              id="phone"
+              name="phone"
               required
-              value={formData.phoneNumber}
+              value={formData.phone}
               onChange={handleChange}
               className="w-full px-3 py-2 bg-blue-100/50 text-black rounded-3xl border border-black focus:ring-2 focus:ring-blue-200"
             />
           </div>
 
-          <div className="md:row-span-3 space-y-2">
-            <label htmlFor="suggestion" className="block text-sm font-medium text-gray-700">
+          {/* Feedback */}
+          <div className="md:col-span-2 space-y-2">
+            <label htmlFor="feedback" className="block text-sm font-medium text-gray-700">
               Suggestion <span className="text-red-500">*</span>
             </label>
             <textarea
-              id="suggestion"
-              name="suggestion"
+              id="feedback"
+              name="feedback"
               required
-              value={formData.suggestion}
+              value={formData.feedback}
               onChange={handleChange}
-              rows={8}
+              rows={6}
               className="w-full px-3 py-2 bg-blue-100/50 text-black rounded-3xl border border-black focus:ring-2 focus:ring-blue-200 resize-none"
             />
           </div>
@@ -102,12 +124,16 @@ export default function Feedback() {
         <div className="pt-2">
           <button
             type="submit"
+            disabled={loading}
             className="w-full py-2.5 px-4 border border-orange-400 text-black font-medium rounded-3xl hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-300"
           >
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
+
+      {error && <p className="text-red-500 mt-4">Error: Please Try Again Later</p>}
+      {data && <p className="text-green-600 mt-4">Thank You! Feedback sent successfully!</p>}
     </div>
   )
 }

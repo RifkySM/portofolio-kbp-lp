@@ -2,17 +2,20 @@ import serverAxios from "@/lib/axiosServer";
 
 export async function generateMenu() {
     try {
-        const discoveries = (await serverAxios.get('/discovery/display')).data;
-        const multiPurposeMenu = (await serverAxios.get('/multi-purpose-menu/display')).data.data[0];
+        const discoveryResponse = await serverAxios.get('/discovery/display');
+        const multiPurposeResponse = await serverAxios.get('/multi-purpose-menu/display');
+
+        const discoveries = discoveryResponse?.data?.data || [];
+        const multiPurposeMenu = multiPurposeResponse?.data?.data?.[0] || {};
 
         const menuItems = [
             {
                 title: "Discover KBPayuk",
                 href: "#",
-                dropdownItems: discoveries.data.map((discovery) => {
+                dropdownItems: discoveries.map((discovery) => {
                     return {
-                        title: discovery.title,
-                        href: `/discovery/${discovery.title}`,
+                        title: discovery?.title || 'Untitled',
+                        href: `/discovery/${discovery?.title || ''}`,
                     }
                 }),
             },
@@ -25,12 +28,12 @@ export async function generateMenu() {
                 ],
             },
             {
-                title: multiPurposeMenu.name,
+                title: multiPurposeMenu?.name || 'Menu',
                 href: "#",
-                dropdownItems: multiPurposeMenu.children.map((child) => {
+                dropdownItems: (multiPurposeMenu?.children || []).map((child) => {
                     return {
-                        title: child.name,
-                        href: child.link,
+                        title: child?.name || 'Untitled',
+                        href: child?.link || '#',
                     }
                 })
             },
@@ -47,5 +50,13 @@ export async function generateMenu() {
         return menuItems
     } catch (err) {
         console.error('Error fetching menu:', err);
+        // Return a default menu structure when there's an error
+        return [
+            {
+                title: "Error",
+                href: "#",
+                dropdownItems: []
+            }
+        ];
     }
 }

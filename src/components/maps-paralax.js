@@ -1,19 +1,31 @@
 "use client"
 
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion, useTransform, useScroll } from "framer-motion"
 import Image from "next/image"
 
 const ParallaxMap = () => {
+  const [parallaxMap, setParallaxMap] = useState(null)
   const containerRef = useRef(null)
-  
+  useEffect(() => {
+    const fetchParallaxMap = async () => {
+      try {
+        const response = await axiosClient.get("/parameter/key/paralax-maps")
+        setParallaxMap(response?.data?.data)
+      } catch (error) {
+        console.error("Error fetching parallax image:", error)
+        setParallaxMap(null)
+      }
+    }
+    fetchParallaxMap()
+  }, [])
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   })
-  
+
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "70%"])
-  
+
   return (
     <section
       ref={containerRef}
@@ -22,14 +34,14 @@ const ParallaxMap = () => {
     >
       <motion.div
         className="absolute inset-0 w-full h-[calc(100%+200px)]" // Perbesar height agar mencakup atas dan bawah
-        style={{ 
+        style={{
           y,
           top: "-350px", // Gunakan style langsung daripada -top-[200px] 
           bottom: "-100px" // Tambahkan bottom negatif
         }}
       >
         <Image
-          src="/paralax-maps.png"
+          src={parallaxMap.content || "/paralax-maps.png"}
           alt="Stasiun Padalarang"
           fill
           className="object-cover"
@@ -37,11 +49,11 @@ const ParallaxMap = () => {
           sizes="100vw"
         />
       </motion.div>
-      
+
       {/* Konten di atas gambar */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between h-full">
         <div className="w-full md:w-1/2"></div>
-        
+
         <div className="w-full md:w-1/2 text-right p-6 rounded-lg">
           <h2 className="text-5xl md:text-7xl font-bold text-white">
             <span className="text-blue-500">30</span> MENIT

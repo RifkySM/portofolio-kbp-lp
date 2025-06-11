@@ -1,11 +1,17 @@
 "use client"
 
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, useInView } from "framer-motion"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation } from "swiper/modules"
+import "swiper/css"
+import "swiper/css/navigation"
+import axiosClient from "@/lib/axiosClient"
+import dayjs from 'dayjs'
+import 'dayjs/locale/id'
 
-// Data untuk event
 const eventData = [
   {
     id: "sayur-keliling",
@@ -18,7 +24,7 @@ const eventData = [
     link: "#",
   },
   {
-    id: "pumptrack-bike",
+    id: "pumptrack-bike-1",
     title: "Pumptrack Bike Competition",
     date: "26 Apr 2025",
     image: "/event/this-month-event/image-2.png",
@@ -38,10 +44,24 @@ export default function ThisMonthEvent() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2, margin: "0px 0px -100px 0px" })
 
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axiosClient.get(`post?category=event&paginate=false&limit=5`)
+        setData(res.data.data)
+      } catch (error) {
+        console.error("Failed to fetch news:", error)
+      }
+    }
+    fetchData()
+  }, [])
+
   return (
     <section id="this-month-event" className="py-10 bg-white" ref={ref}>
       <div className="container mx-auto px-4">
-        {/* Header with logo and text */}
+        {/* Header */}
         <div className="flex flex-col items-center justify-center mb-8">
           <div className="relative w-52 h-32">
             <Image
@@ -64,112 +84,67 @@ export default function ThisMonthEvent() {
           </Link>
         </div>
 
-        {/* Event cards */}
+        {/* Swiper Slider */}
         <motion.div
-          className="flex flex-wrap justify-center gap-6 perspective-[1200px]"
-          initial={{
-            opacity: 0,
-            rotateX: 180,
-            y: 100,
-            rotateZ: -50,
-            transformOrigin: "center bottom",
-          }}
+          initial={{ opacity: 0, rotateX: 180, y: 100, rotateZ: -50 }}
           animate={
             isInView
-              ? {
-                opacity: 1,
-                rotateX: 0,
-                y: 0,
-                rotateZ: 0,
-              }
-              : {
-                opacity: 0,
-                rotateX: 180,
-                y: 100,
-                rotateZ: -50,
-              }
+              ? { opacity: 1, rotateX: 0, y: 0, rotateZ: 0 }
+              : { opacity: 0, rotateX: 180, y: 100, rotateZ: -50 }
           }
-          transition={{
-            duration: 1.5,
-            ease: [0.25, 0.1, 0.25, 1.0],
-            opacity: { duration: 0.8 },
-          }}
-          style={{
-            transformStyle: "preserve-3d",
-            backfaceVisibility: "hidden",
-          }}
+          transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1.0], opacity: { duration: 0.8 } }}
+          style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
         >
-          {eventData.map((event) => {
-            return (
-              <div key={event.id} className="w-[80%] md:w-[300px] h-[600px] relative mt-6">
-                {/* Background image */}
-                <div
-                  className="absolute inset-0 rounded-t-full overflow-hidden"
-                  style={{
-                    backgroundImage: `url(${event.image})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
+          <Swiper
+            modules={[Navigation]}
+            navigation
+            spaceBetween={30}
+            slidesPerView={1}
+            breakpoints={{
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
+          >
+            {data.map((event) => (
+              <SwiperSlide key={event.id}>
+                <div className="w-full h-[600px] relative mt-6">
+                  <div
+                    className="absolute inset-0 rounded-t-full overflow-hidden"
+                    style={{
+                      backgroundImage: `url(${event.thumbnail})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  ></div>
 
-                {/* Content */}
-                <div
-                  className="absolute top-1/2 left-0 right-0 min-h-[400px] bg-white rounded-t-3xl px-5 shadow-[0_-10px_10px_-3px_rgba(0,0,0,0.1)]"
-                  style={{
-                    minHeight: "50%",
-                  }}
-                >
-                  {/* Date badge */}
-                  <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-[#88A740] text-white text-sm font-semibold px-6 py-2 rounded-full">
-                    {event.date}
-                  </div>
-
-                  <div className="mt-6">
-                    <h3 className="text-lg text-black font-bold mb-3">{event.title}</h3>
-
-                    {/* Deskripsi */}
-                    <div className="mb-3">
-                      {event.description.map((item, idx) => (
-                        <div key={idx} className="flex items-start mb-2">
-                          <span className="text-xs font-semibold text-gray-700">{item}</span>
-                        </div>
-                      ))}
+                  <div className="absolute top-1/2 left-0 right-0 min-h-[400px] bg-gray-100 shadow-md rounded-t-3xl px-5">
+                    <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-[#88A740] text-white text-sm font-semibold px-6 py-2 rounded-full whitespace-nowrap">
+                      {dayjs(event.created_at).locale('id').format('dddd, D MMMM YYYY')}
                     </div>
 
-                    <div className="flex items-center mb-2">
-                      <div className="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center mr-2">
-                        <span className="text-xs">⏱️</span>
+                    <div className="mt-12 max-h-[300px] overflow-y-auto"> {/* Increased top margin to prevent overlap */}
+                      <h3 className="text-lg text-black font-bold mb-3 line-clamp-2">{event.title}</h3>
+                      <div className="mb-3 text-black max-h-[180px] overflow-hidden" dangerouslySetInnerHTML={{ __html: event?.content }}>
                       </div>
-                      <span className="text-xs text-gray-700 font-semibold">{event.time}</span>
-                    </div>
 
-                    <div className="flex justify-between items-center mt-3">
-                      <Link href={event.link} className="text-[#2374E1] text-xs hover:underline">
-                        {event.location}
-                      </Link>
-                      <Link
-                        href={event.link}
-                        className="bg-black text-white w-7 h-7 rounded-full flex items-center justify-center"
-                      >
-                        <span>→</span>
-                      </Link>
+                      <div className="flex justify-between items-center mt-3">
+                        <Link href={`news/${event.seo_url}`} className="text-[#2374E1] text-xs hover:underline">
+                          Detail
+                        </Link>
+                        <Link
+                          href={`news/${event.seo_url}`}
+                          className="bg-black text-white w-7 h-7 rounded-full flex items-center justify-center"
+                        >
+                          <span>→</span>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )
-          })}
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </motion.div>
-
-        {/* Navigation arrows */}
-        <div className="flex justify-center text-gray-800 mt-12 gap-4">
-          <button className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
-            <span>←</span>
-          </button>
-          <button className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
-            <span>→</span>
-          </button>
-        </div>
       </div>
     </section>
   )

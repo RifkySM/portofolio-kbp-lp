@@ -1,53 +1,42 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { MapContainer, TileLayer, Marker } from "react-leaflet"
-import "leaflet/dist/leaflet.css"
-import L from "leaflet"
+import axiosClient from "@/lib/axiosClient"
 
-export default function MapOnly({ halteData = [], mapCenter = [-6.8722, 107.5286] }) {
-    const [isMounted, setIsMounted] = useState(false)
-  
-    useEffect(() => {
-      setIsMounted(true)
-  
-      // Perbaiki icon Leaflet default (jika ingin menggunakan marker default)
-      delete L.Icon.Default.prototype._getIconUrl
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
-        iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-        shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
-      })
-    }, [])
-  
-    if (!isMounted) {
-      return (
-        <div className="h-full w-full bg-gray-200 flex items-center justify-center">
-          <p>Loading Map...</p>
-        </div>
-      )
+export default function MapOnly() {
+  const [mapLink, setMapLink] = useState("")
+
+  useEffect(() => {
+    const fetchMapLink = async () => {
+      const res = await axiosClient('parameter/key/big-map')
+      setMapLink(res.data.data.content)
     }
-  
+
+    fetchMapLink()
+  }, [])
+
+  if (!mapLink) {
     return (
-      <div className="w-full" style={{ lineHeight: 0 }}> {/* lineHeight: 0 menghilangkan gap */}
-      <MapContainer 
-        center={mapCenter} 
-        zoom={15} 
-        style={{ 
-          height: "500px", 
-          width: "100%",
-          display: "block" // Memastikan tidak ada whitespace
-        }}
-        zoomControl={false} // Pindahkan kontrol zoom jika diperlukan
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        {halteData.map((halte) => (
-          <Marker key={halte.id} position={[halte.lat, halte.lng]} />
-        ))}
-      </MapContainer>
-    </div>
+      <div className="h-full w-full bg-gray-200 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+          <p className="text-black">Loading Map...</p>
+        </div>
+      </div>
     )
   }
+
+  return (
+    <div className="w-full" style={{ lineHeight: 0 }}>
+      <iframe
+        src={mapLink}
+        width="100%"
+        height="500"
+        style={{ border: 0 }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      />
+    </div>
+  )
+}

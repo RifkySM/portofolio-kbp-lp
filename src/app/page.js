@@ -13,20 +13,12 @@ import dynamic from "next/dynamic"
 import Feedback from "@/components/feedback"
 import AllVideo from "@/components/all-video"
 import YouTubeVideo from "@/components/youtube-video"
+import MapOnly from "@/components/big-maps"
 
 
 export default function KBPayukEvent() {
   const videoId = "n2EHqFSqFPA"
   const playlistId = "PLPJVmS5Z-UUkS7AeK4bQVmdCSRJYwqRP0"
-
-  const MapWithNoSSR = dynamic(() => import("@/components/big-maps"), {
-    ssr: false,
-    loading: () => (
-      <div className="h-[900px] w-full bg-gray-200 flex items-center justify-center">
-        <p>Loading Map...</p>
-      </div>
-    ),
-  })
 
   // useEffect(() => {
   //   // Fungsi scroll kustom
@@ -82,7 +74,7 @@ export default function KBPayukEvent() {
       <ParallaxSection />
       <TitleMaps />
       <section id="maps" className="w-full" style={{ margin: 0, padding: 0 }}>
-        <MapWithNoSSR />
+        <MapOnly />
       </section>
       <section id="maps" className="w-full" style={{ marginTop: 40, padding: 0 }}>
         <Feedback />

@@ -3,8 +3,25 @@
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import axiosClient from "@/lib/axiosClient";
 
 export default function GetRideSection() {
+    const [getRideLink, setGetRideLink] = useState({})
+
+    useEffect(() => {
+        const fetchGetRideLink = async () => {
+            try {
+                const response = await axiosClient.get("/parameter/key/get-ride-link")
+                setGetRideLink(response?.data?.data)
+            } catch (error) {
+                console.error("Error fetching get ride link:", error)
+                setGetRideLink(null)
+            }
+        }
+        fetchGetRideLink()
+    }, [])
+
     // Animation Get ride
     const textVariants = {
         hidden: {
@@ -100,7 +117,7 @@ export default function GetRideSection() {
                     animate="visible"
                     variants={buttonVariants}
                 >
-                    <Link href="/transportation" className="bg-[#8abb2a] text-white px-8 py-1 rounded-full hover:bg-[#7aa625] transition-colors">
+                    <Link href={getRideLink?.content || ''} className="bg-[#8abb2a] text-white px-8 py-1 rounded-full hover:bg-[#7aa625] transition-colors">
                         view more
                     </Link>
                 </motion.div>

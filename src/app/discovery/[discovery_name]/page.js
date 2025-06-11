@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useParams } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import { Link } from "lucide-react"
+import Link from "next/link"
 
 export default function Page() {
     const params = useParams()
@@ -39,7 +39,7 @@ export default function Page() {
                 image: item.image,
                 title: item.name,
                 logo: item.logo,
-                bgColor: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+                bgColor: `#${Math.floor(Math.random() * 14777215).toString(16)}`,
                 schedule: item.operation_hours,
                 link: item.link,
                 is_favorite: item.is_favorite,
@@ -166,7 +166,7 @@ export default function Page() {
                     </svg>
 
                     {/* Title and Tagline */}
-                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-1">ATTRACTIONS</h1>
+                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-1">{discovery.title}</h1>
                     <p className="text-lg sm:text-xl text-gray-800 sm:block hidden">Get fun at KBPayuk!</p>
                 </div>
 
@@ -325,34 +325,40 @@ export default function Page() {
                                                     {/* Bottom part with logo and description */}
                                                     <div className="h-2/5 w-full flex" style={{ backgroundColor: item.bgColor }}>
                                                         {/* Left side */}
-                                                        <div className="flex items-center justify-center w-1/3 sm:w-2/3">
-                                                            <div className="w-full sm:w-40 ml-2 sm:ml-0 h-full relative">
-                                                                <Image
-                                                                    src={item.logo || "/placeholder.svg"}
-                                                                    alt={`${item.title} logo`}
-                                                                    fill
-                                                                    className="object-contain"
-                                                                />
+                                                        {item.logo && item.logo !== '' && (
+                                                            <div className="flex items-center justify-center w-1/3 sm:w-2/3">
+                                                                <div className="w-full sm:w-40 ml-2 sm:ml-0 h-full relative">
+                                                                    <Image
+                                                                        src={item.logo}
+                                                                        alt={`${item.title} logo`}
+                                                                        fill
+                                                                        className="object-contain"
+                                                                    />
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        )}
 
                                                         {/* Right side */}
-                                                        <div className="w-2/3 flex flex-col justify-center p-4 h-full">
+                                                        <div className={`${item.logo && item.logo !== '' ? 'w-2/3' : 'w-full'} flex flex-col justify-center p-4 h-full`}>
                                                             {/* Description text */}
                                                             <p className="text-white text-center font-semibold text-sm sm:text-xl mb-2">
-                                                                {item.description}
+                                                                {item.title}
                                                             </p>
 
                                                             <div className="flex justify-center">
-                                                                <Link href={item.link || "#"}>
-                                                                    <button className="bg-white px-6 py-1.5 rounded-full text-[8px] sm:text-xs 
-                                    text-gray-800 hover:bg-transparent hover:text-white hover:backdrop-brightness-90 transition-all duration-300">
-                                                                        view more
-                                                                    </button>
+                                                                <Link href={item.link || "#"} className="
+                                                                        bg-white px-6 py-1.5 rounded-full text-[8px] sm:text-xs 
+                                                                        text-gray-800 hover:bg-transparent hover:text-white 
+                                                                        hover:backdrop-brightness-90 border border-transparent hover:border-white 
+                                                                        transition-all duration-300
+                                                                        text-center
+                                                                    ">
+                                                                    view more
                                                                 </Link>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </motion.div>
                                             )
                                         })}

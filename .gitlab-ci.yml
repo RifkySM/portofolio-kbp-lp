@@ -1,0 +1,45 @@
+stages:
+  - build
+  - deploy
+
+build_app:
+  stage: build
+  image: node:22
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - .next/
+      - public/
+      - next.config.mjs
+      - package.json
+    expire_in: 1 hour
+  only:
+    - feat/ci-cd-setup
+
+deploy_app:
+  stage: deploy
+  dependencies:
+    - build_app
+  image: node:22
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -p $SSH_PORT -H $SERVER_IP >> ~/.ssh/known_hosts
+  script:
+    - tar -czf deploy.tar.gz .next public next.config.mjs package.json
+    - scp -P $SSH_PORT deploy.tar.gz $DEPLOY_USER@$SERVER_IP:$PROJECT_PATH/
+    - ssh -p $SSH_PORT $DEPLOY_USER@$SERVER_IP "
+        export NVM_DIR=\$HOME/.nvm &&
+        [ -s \$NVM_DIR/nvm.sh ] && . \$NVM_DIR/nvm.sh &&
+        nvm use 22 &&
+        cd $PROJECT_PATH &&
+        tar -xzf deploy.tar.gz &&
+        rm deploy.tar.gz &&
+        PORT=3071 pm2 start \$(which npm) --name 'KBPayuk (Dev:3071)' --interpreter \$(which node) -- start || pm2 reload 'KBPayuk (Dev:3071)'
+      "
+  only:
+    - feat/ci-cd-setup

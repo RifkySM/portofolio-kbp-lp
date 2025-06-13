@@ -16,7 +16,7 @@ build_app:
       - package.json
     expire_in: 1 hour
   only:
-    - feat/ci-cd-setup
+    - dev
 
 deploy_app:
   stage: deploy
@@ -42,4 +42,4 @@ deploy_app:
         PORT=3071 pm2 start \$(which npm) --name 'KBPayuk (Dev:3071)' --interpreter \$(which node) -- start || pm2 reload 'KBPayuk (Dev:3071)'
       "
   only:
-    - feat/ci-cd-setup
+    - dev

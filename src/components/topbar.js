@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname } from "next/navigation"
+import { MiniAuthButton, AuthButton } from "./auth-btn"
 
 export default function Topbar({ menuItems }) {
   const [activeDropdown, setActiveDropdown] = useState(null)
@@ -70,7 +71,7 @@ export default function Topbar({ menuItems }) {
           </div>
 
           {/* Navigation */}
-          <nav className="hidden lg:flex space-x-4">
+          <nav className="hidden lg:flex space-x-4 items-center">
             {menuItems.map((item, index) => (
               <div
                 key={index}
@@ -124,6 +125,9 @@ export default function Topbar({ menuItems }) {
                 )}
               </div>
             ))}
+
+            {/* Login Button */}
+            <AuthButton />
           </nav>
 
           {/* Burger Menu Button */}
@@ -218,11 +222,17 @@ export default function Topbar({ menuItems }) {
                     )}
                   </div>
                 ))}
+
+                {/* Login button moved here */}
+                <MiniAuthButton />
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+
+
 
       {/* Social Media Icons */}
       <div className="fixed left-4 sm:left-8 md:left-12 lg:left-16 top-36 z-50 hidden md:flex flex-col space-y-5 bg-white rounded-full p-4 shadow-lg">

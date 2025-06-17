@@ -1,9 +1,9 @@
-import serverAxios from "@/lib/axiosServer";
+import axiosClient from "@/lib/axiosClient";
 
 export async function generateMenu() {
     try {
-        const discoveryResponse = await serverAxios.get('/discovery/display');
-        const multiPurposeResponse = await serverAxios.get('/multi-purpose-menu/display');
+        const discoveryResponse = await axiosClient.get('/discovery/display');
+        const multiPurposeResponse = await axiosClient.get('/multi-purpose-menu/display');
 
         const discoveries = discoveryResponse?.data?.data || [];
         const multiPurposeMenu = multiPurposeResponse?.data?.data?.[0] || {};
@@ -23,7 +23,7 @@ export async function generateMenu() {
                 title: "What's On",
                 href: "#",
                 dropdownItems: [
-                    { title: "KBPayuk Event", href: "/" },
+                    { title: "KBPayuk Event", href: "#this-month-event" },
                     { title: "News", href: "/news" },
                 ],
             },

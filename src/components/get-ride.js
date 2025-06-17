@@ -10,16 +10,10 @@ export default function GetRideSection() {
     const [getRideLink, setGetRideLink] = useState({})
 
     useEffect(() => {
-        const fetchGetRideLink = async () => {
-            try {
-                const response = await axiosClient.get("/parameter/key/get-ride-link")
-                setGetRideLink(response?.data?.data)
-            } catch (error) {
-                console.error("Error fetching get ride link:", error)
-                setGetRideLink(null)
-            }
-        }
-        fetchGetRideLink()
+        fetch('/api/parameter/get-ride-link')
+            .then(response => response.json())
+            .then(data => setGetRideLink(data))
+            .catch(error => console.error("Error fetching paralax-image:", error));
     }, [])
 
     // Animation Get ride
@@ -117,7 +111,7 @@ export default function GetRideSection() {
                     animate="visible"
                     variants={buttonVariants}
                 >
-                    <Link href={getRideLink?.content || ''} className="bg-[#8abb2a] text-white px-8 py-1 rounded-full hover:bg-[#7aa625] transition-colors">
+                    <Link href={getRideLink || ''} className="bg-[#8abb2a] text-white px-8 py-1 rounded-full hover:bg-[#7aa625] transition-colors">
                         view more
                     </Link>
                 </motion.div>

@@ -1,45 +1,132 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { ChevronLeft, ChevronRight, MoreVertical, X } from "lucide-react"
-import axiosClient from "@/lib/axiosClient"
+import { ChevronLeft, ChevronRight, X } from "lucide-react"
+
+// Component untuk menangkap frame awal sebagai thumbnail
+function VideoWithPoster({ src, onClick }) {
+  const videoRef = useRef(null)
+  const [posterUrl, setPosterUrl] = useState("/video-thumbnail.jpg") // fallback
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const video = videoRef.current
+    const canvas = document.createElement("canvas")
+
+    const capturePoster = () => {
+      if (!video || !video.videoWidth || !video.videoHeight) {
+        setLoading(false)
+        return
+      }
+
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      const ctx = canvas.getContext("2d")
+
+      try {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+        const dataURL = canvas.toDataURL("image/jpeg")
+        setPosterUrl(dataURL)
+      } catch (error) {
+        console.warn("Failed to capture poster:", error)
+        // fallback poster tetap digunakan
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    const onLoadedMetadata = () => {
+      video.currentTime = 0.1
+    }
+
+    const onSeeked = () => {
+      capturePoster()
+    }
+
+    if (video) {
+      setLoading(true)
+      video.addEventListener("loadedmetadata", onLoadedMetadata)
+      video.addEventListener("seeked", onSeeked)
+    }
+
+    // Timeout untuk jaga-jaga kalau gagal sepenuhnya
+    const timeoutId = setTimeout(() => setLoading(false), 4000)
+
+    return () => {
+      if (video) {
+        video.removeEventListener("loadedmetadata", onLoadedMetadata)
+        video.removeEventListener("seeked", onSeeked)
+      }
+      clearTimeout(timeoutId)
+    }
+  }, [src])
+
+  return (
+    <div className="relative w-full h-full">
+      {/* Play Icon in the center */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+        <div className="bg-black/60 rounded-full p-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-8 h-8 text-white"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path d="M6.271 5.055A.5.5 0 0 0 5.5 5.5v5a.5.5 0 0 0 .77.424l4.5-2.5a.5.5 0 0 0 0-.848l-4.5-2.5z" />
+          </svg>
+        </div>
+      </div>
+
+      {loading && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/30">
+          <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />
+        </div>
+      )}
+      <video
+        ref={videoRef}
+        src={src}
+        poster={posterUrl}
+        className="w-full h-full object-cover"
+        preload="metadata"
+        muted
+        onClick={onClick}
+      />
+    </div>
+  )
+}
 
 export default function VideoGallery() {
   const scrollContainerRef = useRef(null)
   const [selectedVideo, setSelectedVideo] = useState(null)
-  const videoRefs = useRef([])
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await axiosClient.get("gallery/feature/video-slider?limit=10")
-      setData(res.data.data.map((item) => item.file))
-    }
-    fetchData()
+    fetch("/api/gallery/video-slider?limit=10")
+      .then((res) => res.json())
+      .then((data) => {
+        const datas = data?.data || []
+        setData(datas.map((item) => item.file))
+      })
+      .catch(console.error)
   }, [])
 
   const scrollLeft = () => {
-    scrollContainerRef.current?.scrollBy({ left: -600, behavior: "smooth" })
+    if (!scrollContainerRef.current) return
+    const scrollAmount = scrollContainerRef.current.offsetWidth * 0.8
+    scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" })
   }
 
   const scrollRight = () => {
-    scrollContainerRef.current?.scrollBy({ left: 600, behavior: "smooth" })
+    if (!scrollContainerRef.current) return
+    const scrollAmount = scrollContainerRef.current.offsetWidth * 0.8
+    scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" })
   }
 
-  const handleVideoClick = (index, url) => {
-    videoRefs.current.forEach((video, i) => {
-      if (video && i !== index) video.pause()
-    })
-    setSelectedVideo(url)
-  }
 
   return (
     <div className="w-full mt-10">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-3 border-b">
-        <button className="p-1 hover:bg-gray-100 rounded-full border border-transparent group">
-          <MoreVertical size={20} className="text-black group-hover:text-gray-500" />
-        </button>
         <h2 className="text-lg font-medium text-black">All Videos</h2>
       </div>
 
@@ -57,26 +144,17 @@ export default function VideoGallery() {
         {/* Scrollable Video List */}
         <div
           ref={scrollContainerRef}
-          className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 py-4 px-6 md:px-10"
+          className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 py-4 px-6 pl-5 md:px-10"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {data.map((videoUrl, index) => (
             <div
               key={index}
-              className="flex-none w-full sm:w-[85%] md:w-[620px] md:min-w-[620px] h-[240px] sm:h-[320px] md:h-[420px] snap-start relative rounded-xl overflow-hidden bg-black"
-              onClick={() => handleVideoClick(index, videoUrl)}
+              className="flex-none w-full sm:w-[85%] md:w-[620px] md:min-w-[620px] h-[240px] sm:h-[320px] md:h-[420px] snap-start relative rounded-xl overflow-hidden bg-black cursor-pointer group"
+              onClick={() => setSelectedVideo(videoUrl)}
             >
-              <video
-                ref={(el) => {
-                  videoRefs.current[index] = el
-                }}
-                src={videoUrl}
-                className="w-full h-full object-cover"
-                muted
-                loop
-                autoPlay
-              />
-              <div className="absolute inset-0 bg-black/30 hover:bg-black/10 transition-colors cursor-pointer" />
+              <VideoWithPoster src={videoUrl} onClick={() => setSelectedVideo(videoUrl)} />
+              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
             </div>
           ))}
         </div>

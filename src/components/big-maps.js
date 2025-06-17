@@ -1,18 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import axiosClient from "@/lib/axiosClient"
 
 export default function MapOnly() {
   const [mapLink, setMapLink] = useState("")
-
   useEffect(() => {
-    const fetchMapLink = async () => {
-      const res = await axiosClient('parameter/key/big-map')
-      setMapLink(res.data.data.content)
-    }
-
-    fetchMapLink()
+    fetch('/api/parameter/big-map')
+      .then(response => response.json())
+      .then(data => setMapLink(data))
+      .catch(error => console.error("Error fetching paralax-image:", error));
   }, [])
 
   if (!mapLink) {

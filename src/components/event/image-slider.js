@@ -13,9 +13,9 @@ export default function HomePage() {
   useEffect(() => {
     const fetchSliders = async () => {
       try {
-        const response = await axiosClient.get("/slider/display")
-
-        setSliderData(response?.data?.data?.map((slider) => ({
+        const response = await fetch('/api/home/slider')
+        const json = await response.json()
+        setSliderData(json?.data?.map((slider) => ({
           id: slider.id,
           image: slider.banner,
           title: slider.title,

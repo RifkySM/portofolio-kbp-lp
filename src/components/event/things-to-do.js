@@ -4,36 +4,35 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, useInView } from "framer-motion"
-import axiosClient from "@/lib/axiosClient"
 
 export default function ThingsToDo() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.3 })
-
-  // State buat data
   const [thingsToDoItems, setThingsToDoItems] = useState([])
+  const [images, setImages] = useState([])
 
   useEffect(() => {
-    const fetchThingsToDo = async () => {
-      try {
-        const res = await axiosClient.get("/things-to-do/display")
-        const data = res?.data?.data || []
-        const mappedItems = data.map((item) => ({
+    fetch('/api/home/things-to-do')
+      .then((res) => res.json())
+      .then((data) => {
+        const items = data?.data?.map((item) => ({
           id: item.id,
           number: item.order_num,
           title: item.name,
           link: item.link,
-        }))
-        setThingsToDoItems(mappedItems)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    fetchThingsToDo()
-  }, [])
+        })) || []
+        setThingsToDoItems(items)
+      })
+      .catch(console.error)
 
-  // Helper buat ngambil item berdasarkan index urutan
-  const getItem = (index) => thingsToDoItems[index] || {}
+    fetch('/api/gallery/things-to-do')
+      .then((res) => res.json())
+      .then((data) => {
+        const datas = data?.data || [];
+        setImages(datas);
+      })
+      .catch(console.error)
+  }, [])
 
   return (
     <section className="py-16 bg-[#f8f7f1]" ref={ref}>
@@ -41,7 +40,7 @@ export default function ThingsToDo() {
         <motion.div
           className="flex flex-col items-center justify-center mb-16"
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <h2 className="text-6xl font-bold text-black text-center">Things To Do</h2>
@@ -51,50 +50,55 @@ export default function ThingsToDo() {
               <Image
                 src="/event/things-to-do/logo.png"
                 alt="Kooba yuk logo"
-                width={260}
-                height={128}
+                fill
                 className="object-contain"
               />
             </div>
           </div>
         </motion.div>
 
-        {/* Things to do items */}
-        <div className="flex flex-col items-center">
-          {/* Baris 1 */}
-          <div className="flex flex-col md:flex-row justify-center items-center w-full mb-8 space-y-6 md:space-y-0">
-            {/* Item 1 */}
-            <ThingsToDoItem item={getItem(0)} delay={0.1} isInView={isInView} />
-            {/* Item 2 */}
-            <ThingsToDoItem item={getItem(1)} delay={0.2} isInView={isInView} />
-          </div>
-
-          {/* Baris 2 */}
-          <div className="flex flex-col md:flex-row justify-center items-center w-full mb-8 space-y-6 md:space-y-0">
-            {/* Item 3 */}
-            <ThingsToDoItem item={getItem(2)} delay={0.3} isInView={isInView} />
-            {/* Item 4 */}
-            <ThingsToDoItem item={getItem(3)} delay={0.4} isInView={isInView} />
-          </div>
+        {/* Items */}
+        <div className="flex flex-col items-center space-y-8">
+          {[0, 2].map((rowStart) => (
+            <div key={rowStart} className="flex flex-col md:flex-row justify-center items-center w-full space-y-6 md:space-y-0">
+              {[0, 1].map((i) => (
+                <ThingsToDoItem
+                  key={rowStart + i}
+                  item={thingsToDoItems[rowStart + i]}
+                  delay={0.1 * (rowStart + i + 1)}
+                  isInView={isInView}
+                />
+              ))}
+            </div>
+          ))}
         </div>
 
         {/* Images */}
-        <div className="flex justify-center relative">
-          <div className="relative w-[404px] h-[268px] -mr-10 mt-16 z-10">
-            <Image src="/event/things-to-do/image-1.png" alt="Shopping exterior" fill className="object-cover" />
-          </div>
-          <div className="relative w-[269px] h-[406px]">
-            <Image src="/event/things-to-do/image-2.png" alt="Pasar Parahyangan" fill className="object-cover" />
-          </div>
+        <div className="flex justify-center relative mt-10">
+          {images.map((image, index) => (
+            <div
+              key={image.id}
+              className={`relative ${index === 0
+                ? "w-[404px] h-[268px] -mr-10 mt-16 z-10"
+                : "w-[404px] h-[268px] -mr-10 mt-16 z-10"
+                }`}
+            >
+              <Image
+                src={image.file}
+                alt={image.title || `Gallery image ${index + 1}`}
+                fill
+                className="object-cover"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
   )
 }
 
-// Komponen item-nya (biar clean)
 function ThingsToDoItem({ item, delay, isInView }) {
-  if (!item?.title) return null // kalau belum ada datanya, skip render
+  if (!item?.title) return null
 
   return (
     <div className="relative md:mx-16 w-full md:w-auto">
@@ -102,7 +106,7 @@ function ThingsToDoItem({ item, delay, isInView }) {
         <motion.div
           className="flex items-center"
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay, ease: "easeOut" }}
         >
           <span className="text-md font-bold mr-4">{item.number}</span>

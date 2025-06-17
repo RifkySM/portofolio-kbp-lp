@@ -5,40 +5,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, useInView } from "framer-motion"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper/modules"
+import { Navigation, Autoplay } from "swiper/modules"
 import "swiper/css"
 import "swiper/css/navigation"
-import axiosClient from "@/lib/axiosClient"
-import dayjs from 'dayjs'
-import 'dayjs/locale/id'
-
-const eventData = [
-  {
-    id: "sayur-keliling",
-    title: "MC Sayur Keliling",
-    date: "25 Apr 2025",
-    image: "/event/this-month-event/image-1.png",
-    description: ["Belanja sayur dan buah jadi makin seru di Pasar Parahyangan! 🛒🏪"],
-    time: "09:00 - Selesai",
-    location: "Pasar Parahyangan",
-    link: "#",
-  },
-  {
-    id: "pumptrack-bike-1",
-    title: "Pumptrack Bike Competition",
-    date: "26 Apr 2025",
-    image: "/event/this-month-event/image-2.png",
-    description: [
-      "Kategori:",
-      "✅ Pushbike (Boys 2017, 2018, 2019, 2020 & Girls 2019,2020)",
-      "✅ BMX (Boys Junior 8th, 9th, 10th)",
-      "✅ MTB (Open, Master A 30-35th, Master B 30-40th)",
-    ],
-    time: "08:00 AM - selesai",
-    location: "Bala Pare",
-    link: "#",
-  },
-]
+import dayjs from "dayjs"
+import "dayjs/locale/id"
 
 export default function ThisMonthEvent() {
   const ref = useRef(null)
@@ -47,15 +18,10 @@ export default function ThisMonthEvent() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axiosClient.get(`post?category=event&paginate=false&limit=5`)
-        setData(res.data.data)
-      } catch (error) {
-        console.error("Failed to fetch news:", error)
-      }
-    }
-    fetchData()
+    fetch("/api/home/event?limit=10")
+      .then(res => res.json())
+      .then(json => setData(json.data))
+      .catch(error => console.error("Failed to fetch news:", error))
   }, [])
 
   return (
@@ -96,8 +62,9 @@ export default function ThisMonthEvent() {
           style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
         >
           <Swiper
-            modules={[Navigation]}
+            modules={[Navigation, Autoplay]}
             navigation
+            autoplay={{ delay: 1000, disableOnInteraction: false }}
             spaceBetween={30}
             slidesPerView={1}
             breakpoints={{
@@ -108,6 +75,7 @@ export default function ThisMonthEvent() {
             {data.map((event) => (
               <SwiperSlide key={event.id}>
                 <div className="w-full h-[600px] relative mt-6">
+                  {/* Image Background */}
                   <div
                     className="absolute inset-0 rounded-t-full overflow-hidden"
                     style={{
@@ -117,17 +85,29 @@ export default function ThisMonthEvent() {
                     }}
                   ></div>
 
-                  <div className="absolute top-1/2 left-0 right-0 min-h-[400px] bg-gray-100 shadow-md rounded-t-3xl px-5">
-                    <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-[#88A740] text-white text-sm font-semibold px-6 py-2 rounded-full whitespace-nowrap">
-                      {dayjs(event.created_at).locale('id').format('dddd, D MMMM YYYY')}
-                    </div>
+                  {/* Content Box */}
+                  <div className="absolute top-1/2 left-0 right-0 min-h-[400px] bg-gray-100 shadow-md rounded-t-3xl px-5 pb-5">
+                    {/* Date Badge */}
+                    {(event.date_start || event.date_end) && (
+                      <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-[#88A740] text-white text-sm font-semibold px-6 py-2 rounded-full whitespace-nowrap">
+                        {event.date_end
+                          ? `${dayjs(event.date_start).locale("id").format("D MMMM")} - ${dayjs(event.date_end).locale("id").format("D MMMM YYYY")}`
+                          : dayjs(event.date_start).locale("id").format("dddd, D MMMM YYYY")
+                        }
+                      </div>
+                    )}
 
-                    <div className="mt-12 max-h-[300px] overflow-y-auto"> {/* Increased top margin to prevent overlap */}
-                      <h3 className="text-lg text-black font-bold mb-3 line-clamp-2">{event.title}</h3>
-                      <div className="mb-3 text-black max-h-[180px] overflow-hidden" dangerouslySetInnerHTML={{ __html: event?.content }}>
+                    {/* Content */}
+                    <div className="mt-14 flex flex-col justify-between h-[calc(100%-3.5rem)]">
+                      <div>
+                        <h3 className="text-xl text-black font-bold mb-2 line-clamp-2">{event.title}</h3>
+                        <div
+                          className="text-sm text-gray-700 leading-relaxed mb-4 overflow-hidden max-h-32"
+                          dangerouslySetInnerHTML={{ __html: event?.content }}
+                        />
                       </div>
 
-                      <div className="flex justify-between items-center mt-3">
+                      <div className="flex justify-between items-center pt-2 border-t">
                         <Link href={`news/${event.seo_url}`} className="text-[#2374E1] text-xs hover:underline">
                           Detail
                         </Link>

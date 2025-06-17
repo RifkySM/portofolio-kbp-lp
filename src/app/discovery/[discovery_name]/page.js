@@ -26,69 +26,65 @@ export default function Page() {
         setMounted(true)
     }, [])
 
-    // Move fetchPlacesToDiscover outside useEffect to make it accessible globally
-    const fetchPlacesToDiscover = async (category_id) => {
-        if (!category_id) return []
+    const fetchPlacesToDiscover = (category_id) => {
+        if (!category_id) return Promise.resolve([])
 
-        try {
-            const response = await axiosClient.get(`place-to-discover/display?category_id=${category_id}`)
-            const data = response.data.data
-
-            return data.map(item => ({
-                id: item.id,
-                image: item.image,
-                title: item.name,
-                logo: item.logo,
-                bgColor: `#${Math.floor(Math.random() * 14777215).toString(16)}`,
-                schedule: item.operation_hours,
-                link: item.link,
-                is_favorite: item.is_favorite,
-                is_main_facility: item.is_main_facility,
-            }))
-        } catch (error) {
-            console.error("Error fetching places to discover:", error)
-            return []
-        }
+        return fetch(`/api/place-to-discover?category_id=${category_id}`)
+            .then(response => response.json())
+            .then(data => {
+                return data.data.map(item => ({
+                    id: item.id,
+                    image: item.image,
+                    title: item.name,
+                    logo: item.logo,
+                    bgColor: `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`,
+                    schedule: item.operation_hours,
+                    link: item.link,
+                    is_favorite: item.is_favorite,
+                    is_main_facility: item.is_main_facility,
+                }))
+            })
+            .catch(error => {
+                console.error("Error fetching places to discover:", error)
+                return []
+            })
     }
 
-
     useEffect(() => {
-        const fetchDiscovery = async () => {
-            try {
-                const response = await axiosClient.get(`/discovery/title/${discovery_name}`)
-                const data = response.data.data
+        if (!discovery_name) return
 
-                setDiscovery(data)
+        fetch(`/api/discovery/${discovery_name}`)
+            .then(response => response.json())
+            .then(data => {
+                setDiscovery(data.data)
 
-                const categoriesWithItems = await Promise.all(
-                    data.categories.map(async (category) => {
-                        const items = category.id
-                            ? await fetchPlacesToDiscover(category.id)
-                            : []
-
-                        return {
-                            id: category.id,
-                            title: category.name,
-                            image: category.image,
-                            items,
-                        }
+                return Promise.all(
+                    data.data.categories.map(category => {
+                        return category.id
+                            ? fetchPlacesToDiscover(category.id)
+                                .then(items => ({
+                                    id: category.id,
+                                    title: category.name,
+                                    image: category.image,
+                                    items,
+                                }))
+                            : Promise.resolve({
+                                id: category.id,
+                                title: category.name,
+                                image: category.image,
+                                items: [],
+                            })
                     })
                 )
-
-                // Set ke dua state sekaligus
+            })
+            .then(categoriesWithItems => {
                 setCategories(categoriesWithItems)
                 setAttractionsCategories(categoriesWithItems)
-
-            } catch (error) {
+            })
+            .catch(error => {
                 console.error("Error fetching discovery:", error)
-            }
-        }
+            })
 
-        if (discovery_name) {
-            fetchDiscovery()
-        }
-
-        // Cleanup
         return () => {
             setDiscovery([])
             setPlaceToDiscover([])

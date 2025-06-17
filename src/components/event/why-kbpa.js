@@ -16,70 +16,69 @@ export default function WhyKBPa() {
   const [getToKnowUsUrl, setGetToKnowUsUrl] = useState(null);
 
   useEffect(() => {
-    const fetchTestimonies = async () => {
+    const testimonialConfigs = [
+      {
+        className: 'absolute -top-8 right-10 bg-[#D89F33] p-6 rounded-[25px] w-[280px] z-10',
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.3 },
+      },
+      {
+        className: 'absolute top-1/2 mt-20 -left-5 bg-[#88A740] p-6 rounded-[25px] w-[280px] z-10',
+        initial: { opacity: 0, x: 20 },
+        animate: { opacity: 1, x: 0 },
+        transition: { duration: 0.3, delay: 0.1 },
+      },
+      {
+        className: 'absolute bottom-10 -right-5 bg-[#D35F39] p-6 rounded-[25px] w-[280px] z-10',
+        initial: { opacity: 0, y: -20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.3, delay: 0.2 },
+      },
+    ];
+
+    const fetchData = async () => {
       try {
-        const response = await axiosClient.get("/testimony/display?type=why-us&limit=3");
-        const configs = [
-          {
-            className: 'absolute -top-8 right-10 bg-[#D89F33] p-6 rounded-[25px] w-[280px] z-10',
-            initial: { opacity: 0, y: 20 },
-            animate: { opacity: 1, y: 0 },
-            transition: { duration: 0.3 },
-          },
-          {
-            className: 'absolute top-1/2 mt-20 -left-5 bg-[#88A740] p-6 rounded-[25px] w-[280px] z-10',
-            initial: { opacity: 0, x: 20 },
-            animate: { opacity: 1, x: 0 },
-            transition: { duration: 0.3, delay: 0.1 },
-          },
-          {
-            className: 'absolute bottom-10 -right-5 bg-[#D35F39] p-6 rounded-[25px] w-[280px] z-10',
-            initial: { opacity: 0, y: -20 },
-            animate: { opacity: 1, y: 0 },
-            transition: { duration: 0.3, delay: 0.2 },
-          },
-        ]
-        setTestimonies(response.data.data.map((testimony, index) => ({
+        const [testimoniesRes, imagesRes, urlRes] = await Promise.all([
+          fetch('/api/home/why-kbpa'),
+          fetch('/api/gallery/why-us?limit=6'),
+          fetch('/api/parameter/get-to-know-us')
+        ]);
+
+        const [testimoniesData, imagesData, urlData] = await Promise.all([
+          testimoniesRes.json(),
+          imagesRes.json(),
+          urlRes.json()
+        ]);
+
+        // Process testimonies
+        setTestimonies(testimoniesData.data.map((testimony, index) => ({
           name: testimony.name,
           testimony: testimony.testimony,
-          config: configs[index],
+          config: testimonialConfigs[index],
         })));
-      } catch (error) {
-        console.error("Error fetching testimonies:", error);
-      }
-    };
-    const fetchTestimonyImages = async () => {
-      try {
-        const response = (await axiosClient.get("/gallery/feature/why-us?limit=6"))?.data?.data;
 
-        const groupedByTitle = response.reduce((acc, item) => {
+        // Process images
+        const groupedImages = imagesData.data.reduce((acc, item) => {
           (acc[item.title] = acc[item.title] || []).push(item);
           return acc;
         }, {});
 
-        const result = Object.values(groupedByTitle).map(items => ({
+        setTestimoniesImage(Object.values(groupedImages).map(items => ({
           title: items[0].title,
           description: items[0].description,
           images: items.map(i => i.file),
-        }));
+        })));
 
-        setTestimoniesImage(result);
+        // Set URL
+        setGetToKnowUsUrl(urlData);
+
       } catch (error) {
-        console.error("Error fetching testimonies:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    const fetchGetToKnowUs = async () => {
-      try {
-        const response = await axiosClient.get("/parameter/key/get-to-know-us");
-        setGetToKnowUsUrl(response.data.data.content);
-      } catch (error) {
-        console.error("Error fetching get-to-know-us:", error);
-      }
-    };
-    fetchGetToKnowUs();
-    fetchTestimonyImages();
-    fetchTestimonies();
+    fetchData();
   }, []);
 
   return (

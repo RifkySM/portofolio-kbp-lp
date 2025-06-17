@@ -9,15 +9,10 @@ const ParallaxMap = () => {
   const [parallaxMap, setParallaxMap] = useState(null)
   const containerRef = useRef(null)
   useEffect(() => {
-    const fetchParallaxMap = async () => {
-      try {
-        const response = await axiosClient.get("/parameter/key/paralax-maps")
-        setParallaxMap(response?.data?.data)
-      } catch (error) {
-        setParallaxMap(null)
-      }
-    }
-    fetchParallaxMap()
+    fetch('/api/parameter/paralax-maps')
+      .then(response => response.json())
+      .then(data => setParallaxMap(data))
+      .catch(error => console.error("Error fetching paralax-image:", error));
   }, [])
 
   const { scrollYProgress } = useScroll({
@@ -42,7 +37,7 @@ const ParallaxMap = () => {
         }}
       >
         <Image
-          src={parallaxMap?.content || "/paralax-maps.png"}
+          src={parallaxMap || "/paralax-maps.png"}
           alt="Stasiun Padalarang"
           fill
           className="object-cover"

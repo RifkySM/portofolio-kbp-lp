@@ -9,13 +9,13 @@ export default function YouTubeVideo({ videoId, playlistId }) {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
     }
-    
+
     // Periksa saat komponen dimuat
     checkMobile()
-    
+
     // Tambahkan event listener untuk window resize
     window.addEventListener("resize", checkMobile)
-    
+
     // Cleanup event listener saat komponen unmount
     return () => {
       window.removeEventListener("resize", checkMobile)
@@ -27,7 +27,7 @@ export default function YouTubeVideo({ videoId, playlistId }) {
   const videoHeight = isMobile ? "240px" : "450px"
 
   // Buat URL untuk video YouTube dengan playlistId (jika ada)
-  const embedUrl = playlistId 
+  const embedUrl = playlistId
     ? `https://www.youtube.com/embed/${videoId}?list=${playlistId}&rel=0`
     : `https://www.youtube.com/embed/${videoId}?rel=0`
 
@@ -41,7 +41,6 @@ export default function YouTubeVideo({ videoId, playlistId }) {
               height={videoHeight}
               src={embedUrl}
               title="YouTube video player"
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>

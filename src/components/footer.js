@@ -1,12 +1,21 @@
 'use client';
 
-import { motion } from "framer-motion";
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import PartnerLogoSection from './partner-logo';
 
 export default function footer() {
+    const [footerLogo, setFooterLogo] = useState("")
+    useEffect(() => {
+        fetch('/api/parameter/footer_logo')
+            .then(response => response.json())
+            .then(data => setFooterLogo(data))
+            .catch(error => console.error("Error fetching paralax-image:", error));
+
+    }, [])
     return (
-        <footer className="h-auto bg-[rgb(24,80,126)] text-white py-2 px-4 md:px-12">
+        <footer className="h-auto bg-[rgb(24,80,126)] text-white py-5 px-4 md:px-12">
             <div className="container mx-auto text-center">
                 {/* Main footer content */}
                 <div className="flex flex-col lg:flex-row justify-between items-center">
@@ -14,118 +23,19 @@ export default function footer() {
                     <div className="mb-6 lg:mb-0 pl-4 lg:pl-11 mx-auto lg:mx-0">
                         <Link href="/">
                             <div className="relative w-60 h-32 lg:w-80 lg:h-44">
-                                <Image
-                                    src="/logo_footer/kotbar_parahyangan.png"
-                                    alt="Kota Baru Parahyangan Logo"
-                                    layout="fill"
-                                    objectFit="contain"
-                                />
+                                {footerLogo && (
+                                    <Image
+                                        src={footerLogo}
+                                        alt="Kota Baru Parahyangan Logo"
+                                        layout="fill"
+                                        objectFit="contain"
+                                    />
+                                )}
                             </div>
                         </Link>
                     </div>
 
-                    {/* Center - Partner logos */}
-                    <div className="flex flex-col justify-between items-center gap-x-0 gap-y-1 sm:gap-x-1 sm:gap-y-2 lg:gap-x-3 lg:gap-y-3 mb-6 lg:mb-0 mx-auto w-auto lg:w-auto">
-                        {/* First row of logos */}
-                        <div className="flex">
-                            <div className="flex justify-center items-center">
-                                <Link href="/mason-pine">
-                                    <div className="relative w-24 h-10 sm:w-32 sm:h-12 lg:w-40 lg:h-16">
-                                        <Image src="/logo_footer/masonpine_hotel.png" alt="Mason Pine Hotel" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-
-                            <div className="flex justify-center items-center">
-                                <Link href="/parahyangan-golf">
-                                    <div className="relative w-24 h-10 sm:w-36 sm:h-16 lg:w-44 lg:h-20 pl-2 lg:pl-4">
-                                        <Image src="/logo_footer/golf_parahyangan.png" alt="Parahyangan Golf" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Second row of logos */}
-                        <div className="flex gap-x-2">
-                            <div className="flex justify-center items-center">
-                                <Link href="/wahoo">
-                                    <div className="relative w-24 h-10 sm:w-20 sm:h-12 lg:w-24 lg:h-14">
-                                        <Image src="/logo_footer/wahoo.png" alt="Wahoo" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-
-                            <div className="flex justify-center items-center">
-                                <Link href="/bumi-hejo">
-                                    <div className="relative w-24 h-10 sm:w-20 sm:h-12 lg:w-24 lg:h-14">
-                                        <Image src="/logo_footer/bumihejo.png" alt="Bumi Hejo" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-
-                            <div className="flex justify-center items-center">
-                                <Link href="/bumi-pancasona">
-                                    <div className="relative w-24 h-10 sm:w-20 sm:h-12 lg:w-24 lg:h-14">
-                                        <Image src="/logo_footer/pancasona.png" alt="Bumi Pancasona" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Third row of logos */}
-                        <div className="flex gap-x-2">
-                            <div className="flex justify-center items-center">
-                                <Link href="/pasir-parahyangan">
-                                    <div className="relative w-24 h-10 sm:w-20 sm:h-12 lg:w-24 lg:h-14">
-                                        <Image src="/logo_footer/pasar.png" alt="Pasir Parahyangan" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-
-                            <div className="flex justify-center items-center">
-                                <Link href="/bumi-skatepark">
-                                    <div className="relative w-24 h-10 sm:w-20 sm:h-12 lg:w-24 lg:h-14">
-                                        <Image src="/logo_footer/skatepark.png" alt="Bumi Skatepark" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-
-                            <div className="flex justify-center items-center">
-                                <Link href="/bumi-playpark">
-                                    <div className="relative w-24 h-10 sm:w-20 sm:h-12 lg:w-24 lg:h-14">
-                                        <Image src="/logo_footer/playpark.png" alt="Bumi Playpark" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Fourth row of logos */}
-                        <div className="flex gap-x-2">
-                            <div className="flex justify-center items-center">
-                                <Link href="/baleseni">
-                                    <div className="relative w-24 h-10 sm:w-20 sm:h-12 lg:w-24 lg:h-14">
-                                        <Image src="/logo_footer/baleseni.png" alt="Baleseni" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-
-                            <div className="flex justify-center items-center">
-                                <Link href="/the_biggest">
-                                    <div className="relative w-24 h-10 sm:w-20 sm:h-12 lg:w-24 lg:h-14">
-                                        <Image src="/logo_footer/biggest.png" alt="The Biggest" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-
-                            <div className="flex justify-center items-center">
-                                <Link href="/bale-pare">
-                                    <div className="relative w-24 h-10 sm:w-20 sm:h-12 lg:w-24 lg:h-14">
-                                        <Image src="/logo_footer/balepare.png" alt="Bale Pare" layout="fill" objectFit="contain" />
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
+                    <PartnerLogoSection />
 
                     {/* Right side - Contact information */}
                     <div className="text-xs font-bold pt-10 lg:pt-0 px-4 text-center lg:text-left flex flex-col items-center lg:items-start w-full lg:w-auto mx-auto">

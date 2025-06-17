@@ -15,41 +15,29 @@ export default function Experience() {
   const isInView = useInView(testimonialRef, { once: true, amount: 0.2 })
 
   useEffect(() => {
-    const fetchSliderImages = async () => {
-      try {
-        const response = await axiosClient.get("/gallery/feature/image-slider")
-        const images = response?.data?.data || []
+    fetch("/api/gallery/image-slider")
+      .then(res => res.json())
+      .then(json => setBannerImages(json.data.map((item, index) => ({
+        id: index,
+        title: item.title,
+        description: item.description,
+        src: item.file,
+        alt: item.title || `Banner ${index + 1}`,
+      }))))
+      .catch(error => console.error("Failed to fetch image slider:", error))
 
-        const result = images.map((item, index) => ({
+    fetch('/api/home/testimony?type=testimony&limit10')
+      .then(res => res.json())
+      .then(res => {
+        const mappedTestimonies = res.data.map((testimony, index) => ({
           id: index,
-          title: item.title,
-          description: item.description,
-          src: item.file,
-          alt: item.title || `Banner ${index + 1}`,
-        }))
-
-        setBannerImages(result)
-      } catch (error) {
-        console.error("Error fetching slider images:", error)
-      }
-    }
-
-    const fetchTestimonies = async () => {
-      try {
-        const response = await axiosClient.get("/testimony/display?type=testimony")
-        setTestimonies(response.data.data.map((testimony, index) => ({
-          id: index, // ✅ add id here
           name: testimony.name,
           text: testimony.testimony,
           image: testimony.image,
-        })))
-      } catch (error) {
-        console.error("Error fetching testimonies:", error)
-      }
-    }
-
-    fetchTestimonies()
-    fetchSliderImages()
+        }))
+        setTestimonies(mappedTestimonies)
+      })
+      .catch(error => console.error("Failed to fetch testimony:", error))
   }, [])
 
   useEffect(() => {

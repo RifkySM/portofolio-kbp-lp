@@ -1,21 +1,19 @@
 "use client"
-import axiosClient from "@/lib/axiosClient"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
 export default function ShuttleInfo() {
   const [data, setData] = useState([])
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await axiosClient.get('free-shuttle-car/display')
-      setData(res.data.data)
-    }
-    fetchData()
+    fetch('/api/maps/free-shuttle-car?limit=5')
+      .then(response => response.json())
+      .then(data => setData(data.data))
+      .catch(error => console.error("Error fetching data:", error));
   }, [])
   return (
     <div className="mx-auto max-w-7xl px-4 mb-20">
       {data.map((item, index) => (
-        <div key={index} className="flex flex-col lg:flex-row ml-0 md:ml-0 lg:ml-[100px]">
+        <div key={index} className="flex flex-col lg:flex-row ml-0 md:ml-0 lg:ml-[100px] mb-20">
           {/* Left Side */}
           <div className="w-full lg:w-2/5 relative flex justify-center lg:block">
             {/* Shuttle Bus Image */}

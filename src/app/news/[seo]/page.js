@@ -1,24 +1,24 @@
 "use client"
 
-import axiosClient from "@/lib/axiosClient";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import Image from "next/image";
 import Head from "next/head";
+import CommentSection from "@/components/news/comments";
 
 export default function Page() {
     const params = useParams();
     const seo = params.seo;
     const [post, setPost] = useState({});
-    const [comments, setComments] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axiosClient.get(`/post/slug/${seo}`);
-                setPost(response.data.data || {});
+                const response = await fetch(`/api/news/${seo}`);
+                const json = await response.json();
+                setPost(json.data || {});
             } catch (error) {
                 console.error("Error fetching post:", error);
                 setPost({});
@@ -26,34 +26,6 @@ export default function Page() {
         };
         fetchData();
     }, [seo]);
-
-    useEffect(() => {
-        const fetchComments = async () => {
-            try {
-                const response = await axiosClient.get(`/post-comment?post_id=${post.id}&paginate=false`);
-                setComments(response.data.data || []);
-            } catch (error) {
-                console.error("Error fetching comments:", error);
-                setComments([]);
-            }
-        };
-        if (post.id) {
-            fetchComments();
-        }
-    }, [post.id]);
-
-    const handleLike = async () => {
-        try {
-            await axiosClient.patch(`/post/like/${post.id}`);
-
-            setPost(prev => ({
-                ...prev,
-                total_likes: (prev.total_likes || 0) + 1
-            }));
-        } catch (error) {
-            console.error("Error liking the post:", error);
-        }
-    };
 
     return (
         <>
@@ -86,40 +58,7 @@ export default function Page() {
                         <div className="text-black prose max-w-none mb-10" dangerouslySetInnerHTML={{ __html: post.content }} />
 
                         {/* Comment Section */}
-                        <div className="mt-10">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-2xl font-semibold text-black">Komentar ({post.comment_count})</h2>
-
-                                <button
-                                    onClick={handleLike}
-                                    className="text-2xl font-semibold text-black flex items-center gap-2 focus:outline-none"
-                                    aria-label="Like this post"
-                                >
-                                    Likes ({post.total_likes})
-                                    <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                    </svg>
-                                </button>
-                            </div>
-
-                            {comments.length > 0 ? (
-                                <div className="space-y-6">
-                                    {comments.map((comment) => (
-                                        <div key={comment.id} className="p-4 border border-gray-200 rounded-lg">
-                                            <p className="text-sm font-semibold text-gray-700">
-                                                {comment.user.name || "Anonim"}
-                                            </p>
-                                            <p className="text-sm text-gray-500 mb-2">
-                                                {dayjs(comment.created_at).locale('id').format('D MMMM YYYY HH:mm')}
-                                            </p>
-                                            <p className="text-gray-800">{comment.comment}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <p className="text-gray-500">Belum ada komentar.</p>
-                            )}
-                        </div>
+                        {post.id && <CommentSection post={post} />}
                     </div>
                 </div>
             </main>

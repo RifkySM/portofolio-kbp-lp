@@ -8,16 +8,10 @@ export default function HowToReachKbpa() {
     const [openIndex, setOpenIndex] = useState(null); // control which route is open
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axiosClient.get("/routes/display");
-                setData(response.data.data || []);
-            } catch (error) {
-                console.error("Error fetching routes:", error);
-                setData([]);
-            }
-        };
-        fetchData();
+        fetch('/api/maps/how-to-reach-kbpa')
+            .then(response => response.json())
+            .then(data => setData(data.data))
+            .catch(error => console.error("Error fetching data:", error));
     }, []);
 
     const bounceVariants = {

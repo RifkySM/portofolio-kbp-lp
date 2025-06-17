@@ -13,6 +13,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.5.0",
     "framer-motion": "^12.7.2",
+    "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
     "lg-video": "^1.4.0",
     "lightgallery": "^2.8.3",

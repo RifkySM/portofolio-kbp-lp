@@ -147,7 +147,7 @@ export default function Page() {
                                 type="button"
                                 className="mt-2 w-full bg-primary text-white font-semibold py-2 px-4 rounded bg-[#6bb5ee] hover:bg-[#2b6ca3] transition"
                             >
-                                Don't have an account? Register now!
+                                Don&apos;t have an account? Register now!
                             </button>
                         </Link>
                     </form>

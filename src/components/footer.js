@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import PartnerLogoSection from './partner-logo';
 
-export default function footer() {
+export default function Footer() {
     const [footerLogo, setFooterLogo] = useState("")
     useEffect(() => {
         fetch('/api/parameter/footer_logo')
